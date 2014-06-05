@@ -8,6 +8,9 @@ var gulp    = require('gulp')
   , jade   = require('gulp-jade')
   , sass   = require('gulp-sass')
   , prefix = require('gulp-autoprefixer')
+  , jshint = require('gulp-jshint')
+  , stylish = require('jshint-stylish')
+  , browserify = require('gulp-browserify')
   ;
 
 
@@ -46,6 +49,28 @@ gulp.task('dev-css', function() {
     .pipe(plumber())
     .pipe(sass(sass_opts))
     .pipe(gulp.dest('./dev/css/'))
+    ;
+});
+
+gulp.task('dev-js', function(){
+
+  var opts = {
+    insertGlobals: false,
+    debug: true
+  };
+
+  // browserify
+
+  gulp.src('./src/js/*.js', {read: false})
+    .pipe(browserify(opts))
+    .pipe(gulp.dest('./dev/js/'))
+    ;
+
+  // jshint
+
+  gulp.src('./src/js/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter("jshint-stylish"))
     ;
 });
 
