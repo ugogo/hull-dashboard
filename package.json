@@ -1,0 +1,28 @@
+{
+  "name": "Gulp-starter",
+  "version": "0.0.0",
+  "description": "Gulp.js starter",
+  "keywords": [
+    "html",
+    "jade",
+    "css",
+    "scss",
+    "javascript",
+    "gulp",
+    "starter",
+    "boilerplate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/onaliugo/gulp-starter.git"
+  },
+  "author": "Ugo Onali",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/onaliugo/gulp-starter/issues"
+  },
+  "homepage": "https://github.com/onaliugo/gulp-starter",
+  "devDependencies": {
+    "gulp": "~3.7.0"
+  }
+}
