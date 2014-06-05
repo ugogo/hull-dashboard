@@ -77,4 +77,4 @@ gulp.task('dev-js', function(){
 
 // tasks
 
-gulp.task( 'default', ['dev-html'] );
+gulp.task( 'default', ['dev-html', 'dev-css', 'dev-js'] );
