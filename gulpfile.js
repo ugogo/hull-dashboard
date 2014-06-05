@@ -5,8 +5,9 @@ var gulp    = require('gulp')
 
   // dev
 
-  , jade = require('gulp-jade')
-
+  , jade   = require('gulp-jade')
+  , sass   = require('gulp-sass')
+  , prefix = require('gulp-autoprefixer')
   ;
 
 
@@ -32,6 +33,21 @@ gulp.task('dev-html', function() {
     ;
 });
 
+gulp.task('dev-css', function() {
+
+  var sass_opts = {
+    style: 'expanded',
+    sourceComments: 'map'
+  };
+
+  // scss generation
+
+  gulp.src('./src/scss/*.scss')
+    .pipe(plumber())
+    .pipe(sass(sass_opts))
+    .pipe(gulp.dest('./dev/css/'))
+    ;
+});
 
 
 // tasks
