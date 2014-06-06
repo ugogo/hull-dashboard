@@ -8,10 +8,11 @@ var gulp    = require('gulp')
   , jade       = require('gulp-jade')
   , sass       = require('gulp-sass')
   , prefix     = require('gulp-autoprefixer')
+  , source     = require('vinyl-source-stream')
   , jshint     = require('gulp-jshint')
   , connect    = require('gulp-connect')
   , stylish    = require('jshint-stylish')
-  , browserify = require('gulp-browserify')
+  , browserify = require('browserify')
   ;
 
 
@@ -53,23 +54,21 @@ gulp.task('dev-css', function() {
     ;
 });
 
-gulp.task('dev-js', function(){
+gulp.task('dev-js-browserify', function(){
 
   var opts = {
     insertGlobals: false,
     debug: true
   };
 
-  // browserify
-
-  gulp.src('./src/js/*.js', {read: false})
-    .pipe(browserify(opts))
+  return browserify('./src/js/app')
+    .bundle(opts)
+    .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
-    ;
+});
 
-  // jshint
-
-  gulp.src('./src/js/**/*.js')
+gulp.task('dev-jshint', function(){
+  return gulp.src('./src/js/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     ;
@@ -87,4 +86,5 @@ gulp.task('dev-connect', function(){
 // generate files
 // launch localserver at http://localhost:8000/
 
+gulp.task('dev-js', ['dev-js-browserify', 'dev-jshint']);
 gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect']);

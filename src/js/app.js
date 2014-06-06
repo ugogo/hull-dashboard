@@ -1,1 +1,3 @@
-console.log('app.js');
+var sayHello = require('./say-hello');
+
+sayHello();
