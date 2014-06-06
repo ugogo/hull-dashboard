@@ -80,6 +80,12 @@ gulp.task('dev-connect', function(){
   });
 });
 
+gulp.task('dev-watch', function(){
+  gulp.watch('src/**/*.js',   ['dev-js']);
+  gulp.watch('src/**/*.jade', ['dev-jade']);
+  gulp.watch('src/**/*.scss', ['dev-css']);
+});
+
 
 
 // main tasks
@@ -87,4 +93,4 @@ gulp.task('dev-connect', function(){
 gulp.task('dev-js',   ['dev-js-browserify', 'dev-jshint']);
 gulp.task('dev-html', ['dev-html-clean', 'dev-jade']);
 
-gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect']);
+gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect', 'dev-watch']);
