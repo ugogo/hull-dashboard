@@ -21,7 +21,7 @@ var gulp    = require('gulp')
 
 gulp.task('dev-html-clean', function() {
 
-  return gulp.src('./dev/*.html')
+  return gulp.src('./dev/*.html', { read:false })
     .pipe(clean({force: true}))
     ;
 });
