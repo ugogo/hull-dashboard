@@ -19,19 +19,18 @@ var gulp    = require('gulp')
 
 // dev tasks
 
-gulp.task('dev-html', function() {
+gulp.task('dev-html-clean', function() {
+
+  return gulp.src('./dev/*.html')
+    .pipe(clean({force: true}))
+    ;
+});
+
+gulp.task('dev-jade', function() {
 
   var opts = { pretty: true }
 
-  // delete old html files
-
-  gulp.src('./dev/*.html')
-    .pipe(clean({force: true}))
-    ;
-
-  // generate news
-
-  gulp.src('./src/*.jade')
+  return gulp.src('./src/*.jade')
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
@@ -47,7 +46,7 @@ gulp.task('dev-css', function() {
 
   // scss generation
 
-  gulp.src('./src/scss/*.scss')
+  return gulp.src('./src/scss/*.scss')
     .pipe(plumber())
     .pipe(sass(sass_opts))
     .pipe(gulp.dest('./dev/css/'))
@@ -83,8 +82,9 @@ gulp.task('dev-connect', function(){
 
 
 
-// generate files
-// launch localserver at http://localhost:8000/
+// main tasks
 
-gulp.task('dev-js', ['dev-js-browserify', 'dev-jshint']);
+gulp.task('dev-js',   ['dev-js-browserify', 'dev-jshint']);
+gulp.task('dev-html', ['dev-html-clean', 'dev-jade']);
+
 gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect']);
