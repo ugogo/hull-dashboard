@@ -1,15 +1,16 @@
 
 var gulp    = require('gulp')
   , clean   = require('gulp-clean')
-  , plumber = require('gulp-plumber') 
+  , plumber = require('gulp-plumber')
 
   // dev
 
-  , jade   = require('gulp-jade')
-  , sass   = require('gulp-sass')
-  , prefix = require('gulp-autoprefixer')
-  , jshint = require('gulp-jshint')
-  , stylish = require('jshint-stylish')
+  , jade       = require('gulp-jade')
+  , sass       = require('gulp-sass')
+  , prefix     = require('gulp-autoprefixer')
+  , jshint     = require('gulp-jshint')
+  , connect    = require('gulp-connect')
+  , stylish    = require('jshint-stylish')
   , browserify = require('gulp-browserify')
   ;
 
@@ -70,11 +71,20 @@ gulp.task('dev-js', function(){
 
   gulp.src('./src/js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter("jshint-stylish"))
+    .pipe(jshint.reporter('jshint-stylish'))
     ;
 });
 
+gulp.task('dev-connect', function(){
+  connect.server({
+    root: 'dev',
+    port: 8000
+  });
+});
 
-// tasks
 
-gulp.task( 'default', ['dev-html', 'dev-css', 'dev-js'] );
+
+// generate files
+// launch localserver at http://localhost:8000/
+
+gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect']);
