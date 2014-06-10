@@ -25,19 +25,16 @@ var gulp    = require('gulp')
 
 // dev tasks
 
-gulp.task('dev-html-clean', function() {
-
+gulp.task('dev-html-clean', function(){
   return gulp.src('./dev/*.html', { read:false })
     .pipe(clean({force: true}))
     ;
 });
 
-gulp.task('dev-jade', function() {
-
+gulp.task('dev-jade', function(){
   var opts = {
     pretty: true
   };
-
   return gulp.src('./src/*.jade')
     .pipe(plumber())
     .pipe(jade(opts))
@@ -45,13 +42,11 @@ gulp.task('dev-jade', function() {
     ;
 });
 
-gulp.task('dev-css', function() {
-
+gulp.task('dev-css', function(){
   var opts = {
     style: 'expanded',
     sourceComments: 'map'
   };
-
   return gulp.src('./src/scss/*.scss')
     .pipe(plumber())
     .pipe(sass(opts))
@@ -60,16 +55,15 @@ gulp.task('dev-css', function() {
 });
 
 gulp.task('dev-js-browserify', function(){
-
   var opts = {
     insertGlobals: false,
     debug: true
   };
-
   return browserify('./src/js/app')
     .bundle(opts)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
+    ;
 });
 
 gulp.task('dev-jshint', function(){
@@ -96,27 +90,27 @@ gulp.task('dev-watch', function(){
 
 // build task
 
-gulp.task('build-html', function() {
-
+gulp.task('build-html', function(){
   var opts = {
     comments: false
   };
-
   return gulp.src('./dev/*.html')
     .pipe(htmlmin(opts))
     .pipe(gulp.dest('./dist/'))
+    ;
 });
 
 gulp.task('build-css', function(){
-
   return gulp.src('./dev/css/*.css')
     .pipe(cssmin())
-    .pipe(gulp.dest('./dist/css/'));
+    .pipe(gulp.dest('./dist/css/'))
+    ;
 });
 
 gulp.task('build-gh-pages', function(){
   return gulp.src('./dist/**/*')
     .pipe(deploy())
+    ;
 });
 
 
