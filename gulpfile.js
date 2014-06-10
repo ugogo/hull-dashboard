@@ -32,7 +32,9 @@ gulp.task('dev-html-clean', function() {
 
 gulp.task('dev-jade', function() {
 
-  var opts = { pretty: true }
+  var opts = {
+    pretty: true
+  };
 
   return gulp.src('./src/*.jade')
     .pipe(plumber())
@@ -43,16 +45,14 @@ gulp.task('dev-jade', function() {
 
 gulp.task('dev-css', function() {
 
-  var sass_opts = {
+  var opts = {
     style: 'expanded',
     sourceComments: 'map'
   };
 
-  // scss generation
-
   return gulp.src('./src/scss/*.scss')
     .pipe(plumber())
-    .pipe(sass(sass_opts))
+    .pipe(sass(opts))
     .pipe(gulp.dest('./dev/css/'))
     ;
 });
