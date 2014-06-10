@@ -18,6 +18,7 @@ var gulp    = require('gulp')
 
   , htmlmin = require('gulp-minify-html')
   , cssmin  = require('gulp-cssmin')
+  , jsmin   = require('gulp-uglify');
   , deploy  = require('gulp-gh-pages')
   ;
 
@@ -104,6 +105,13 @@ gulp.task('build-css', function(){
   return gulp.src('./dev/css/*.css')
     .pipe(cssmin())
     .pipe(gulp.dest('./dist/css/'))
+    ;
+});
+
+gulp.task('build-js', function(){
+  return gulp.src('./dev/js/**/*.js')
+    .pipe(jsmin())
+    .pipe(gulp.dest('./dist/js/'))
     ;
 });
 
