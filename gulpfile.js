@@ -16,7 +16,8 @@ var gulp    = require('gulp')
 
   // build
 
-  , deploy = require('gulp-gh-pages')
+  , htmlmin = require('gulp-minify-html')
+  , deploy  = require('gulp-gh-pages')
   ;
 
 
@@ -91,6 +92,17 @@ gulp.task('dev-watch', function(){
 
 
 // build task
+
+gulp.task('build-html', function() {
+
+  var opts = {
+    comments: false
+  };
+
+  return gulp.src('./dev/*.html')
+    .pipe(htmlmin(opts))
+    .pipe(gulp.dest('./dist/'))
+});
 
 gulp.task('build-gh-pages', function(){
   return gulp.src('./dist/**/*')
