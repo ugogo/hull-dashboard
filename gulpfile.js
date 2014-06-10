@@ -13,8 +13,11 @@ var gulp    = require('gulp')
   , connect    = require('gulp-connect')
   , stylish    = require('jshint-stylish')
   , browserify = require('browserify')
-  ;
 
+  // build
+
+  , deploy = require('gulp-gh-pages')
+  ;
 
 
 // dev tasks
@@ -87,10 +90,35 @@ gulp.task('dev-watch', function(){
 });
 
 
+// build task
+
+gulp.task('build-gh-pages', function(){
+  return gulp.src('./dist/**/*')
+    .pipe(deploy())
+});
+
+
 
 // main tasks
 
-gulp.task('dev-js',   ['dev-js-browserify', 'dev-jshint']);
-gulp.task('dev-html', ['dev-html-clean', 'dev-jade']);
+gulp.task('dev-js', [
+  'dev-js-browserify',
+  'dev-jshint'
+]);
 
-gulp.task('default', ['dev-html', 'dev-css', 'dev-js', 'dev-connect', 'dev-watch']);
+gulp.task('dev-html', [
+  'dev-html-clean',
+  'dev-jade'
+]);
+
+gulp.task('default', [
+  'dev-html',
+  'dev-css',
+  'dev-js',
+  'dev-connect',
+  'dev-watch'
+]);
+
+gulp.task('deploy', [
+  'build-gh-pages'
+]);
