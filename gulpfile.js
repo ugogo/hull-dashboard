@@ -40,6 +40,7 @@ gulp.task('dev-jade', function(){
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
+    .pipe(connect.reload())
     ;
 });
 
@@ -52,6 +53,7 @@ gulp.task('dev-css', function(){
     .pipe(plumber())
     .pipe(sass(opts))
     .pipe(gulp.dest('./dev/css/'))
+    .pipe(connect.reload())
     ;
 });
 
@@ -64,6 +66,7 @@ gulp.task('dev-js-browserify', function(){
     .bundle(opts)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
+    .pipe(connect.reload())
     ;
 });
 
@@ -77,6 +80,7 @@ gulp.task('dev-jshint', function(){
 gulp.task('dev-connect', function(){
   connect.server({
     root: 'dev',
+    livereload: true,
     port: 8000
   });
 });
