@@ -17,8 +17,10 @@ var gulp    = require('gulp')
   // build
 
   , htmlmin = require('gulp-minify-html')
+  , cssmin  = require('gulp-cssmin')
   , deploy  = require('gulp-gh-pages')
   ;
+
 
 
 // dev tasks
@@ -91,6 +93,7 @@ gulp.task('dev-watch', function(){
 });
 
 
+
 // build task
 
 gulp.task('build-html', function() {
@@ -102,6 +105,13 @@ gulp.task('build-html', function() {
   return gulp.src('./dev/*.html')
     .pipe(htmlmin(opts))
     .pipe(gulp.dest('./dist/'))
+});
+
+gulp.task('build-css', function(){
+
+  return gulp.src('./dev/css/*.css')
+    .pipe(cssmin())
+    .pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('build-gh-pages', function(){
