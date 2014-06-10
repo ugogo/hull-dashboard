@@ -18,7 +18,7 @@ var gulp    = require('gulp')
 
   , htmlmin = require('gulp-minify-html')
   , cssmin  = require('gulp-cssmin')
-  , jsmin   = require('gulp-uglify');
+  , jsmin   = require('gulp-uglify')
   , deploy  = require('gulp-gh-pages')
   ;
 
@@ -91,6 +91,12 @@ gulp.task('dev-watch', function(){
 
 // build task
 
+gulp.task('build-clean', function(){
+  return gulp.src('./dist/**/*', { read:false })
+    .pipe(clean({force: true}))
+    ;
+});
+
 gulp.task('build-html', function(){
   var opts = {
     comments: false
@@ -115,7 +121,7 @@ gulp.task('build-js', function(){
     ;
 });
 
-gulp.task('build-gh-pages', function(){
+gulp.task('build-deploy', function(){
   return gulp.src('./dist/**/*')
     .pipe(deploy())
     ;
@@ -143,6 +149,10 @@ gulp.task('default', [
   'dev-watch'
 ]);
 
-gulp.task('deploy', [
-  'build-gh-pages'
+gulp.task('build', [
+  'build-clean',
+  'build-html',
+  'build-css',
+  'build-js',
+  'build-deploy'
 ]);
