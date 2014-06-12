@@ -45,13 +45,10 @@ gulp.task('dev-jade', function(){
 });
 
 gulp.task('dev-css', function(){
-  var opts = {
-    style: 'expanded',
-    sourceComments: 'map'
-  };
   return gulp.src('./src/scss/*.scss')
     .pipe(plumber())
-    .pipe(sass(opts))
+    .pipe(sass())
+    .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
     .pipe(gulp.dest('./dev/css/'))
     .pipe(connect.reload())
     ;
