@@ -5,14 +5,14 @@ var gulp    = require('gulp')
 
   // dev
 
-  , jade       = require('gulp-jade')
-  , sass       = require('gulp-sass')
-  , prefix     = require('gulp-autoprefixer')
-  , source     = require('vinyl-source-stream')
-  , jshint     = require('gulp-jshint')
-  , connect    = require('gulp-connect')
-  , stylish    = require('jshint-stylish')
-  , browserify = require('browserify')
+  , jade        = require('gulp-jade')
+  , sass        = require('gulp-sass')
+  , prefix      = require('gulp-autoprefixer')
+  , source      = require('vinyl-source-stream')
+  , jshint      = require('gulp-jshint')
+  , stylish     = require('jshint-stylish')
+  , browserify  = require('browserify')
+  , browserSync = require('browser-sync')
 
   // build
 
@@ -40,7 +40,7 @@ gulp.task('dev-jade', function(){
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
-    .pipe(connect.reload())
+    .pipe(browserSync.reload({ stream: true }));
     ;
 });
 
@@ -50,7 +50,7 @@ gulp.task('dev-css', function(){
     .pipe(sass())
     .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
     .pipe(gulp.dest('./dev/css/'))
-    .pipe(connect.reload())
+    .pipe(browserSync.reload({ stream: true }));
     ;
 });
 
@@ -63,7 +63,10 @@ gulp.task('dev-js-browserify', function(){
     .bundle(opts)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
-    .pipe(connect.reload())
+    .pipe(browserSync.reload({
+      stream: true,
+      once: true
+    }));
     ;
 });
 
@@ -74,11 +77,11 @@ gulp.task('dev-jshint', function(){
     ;
 });
 
-gulp.task('dev-connect', function(){
-  connect.server({
-    root: 'dev',
-    livereload: true,
-    port: 8000
+gulp.task('dev-browser-sync', function() {
+  browserSync.init(null, {
+    server: {
+      baseDir: "./dev"
+    }
   });
 });
 
@@ -146,7 +149,7 @@ gulp.task('default', [
   'dev-html',
   'dev-css',
   'dev-js',
-  'dev-connect',
+  'dev-browser-sync',
   'dev-watch'
 ]);
 
