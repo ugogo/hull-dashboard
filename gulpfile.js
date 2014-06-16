@@ -28,7 +28,7 @@ var gulp    = require('gulp')
 
 gulp.task('dev-html-clean', function(){
   return gulp.src('./dev/*.html', { read:false })
-    .pipe(clean({force: true}))
+    .pipe(clean({ force: true }))
     ;
 });
 
@@ -66,7 +66,7 @@ gulp.task('dev-js-browserify', function(){
     .pipe(browserSync.reload({
       stream: true,
       once: true
-    }));
+    }))
     ;
 });
 
@@ -97,7 +97,7 @@ gulp.task('dev-watch', function(){
 
 gulp.task('build-clean', function(){
   return gulp.src('./dist/**/*', { read:false })
-    .pipe(clean({force: true}))
+    .pipe(clean({ force: true }))
     ;
 });
 
