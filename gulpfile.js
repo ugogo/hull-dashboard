@@ -40,7 +40,6 @@ gulp.task('dev-jade', function(){
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
-    .pipe(browserSync.reload({ stream: true }));
     ;
 });
 
@@ -50,7 +49,6 @@ gulp.task('dev-css', function(){
     .pipe(sass())
     .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
     .pipe(gulp.dest('./dev/css/'))
-    .pipe(browserSync.reload({ stream: true }));
     ;
 });
 
@@ -63,10 +61,6 @@ gulp.task('dev-js-browserify', function(){
     .bundle(opts)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
-    .pipe(browserSync.reload({
-      stream: true,
-      once: true
-    }))
     ;
 });
 
@@ -77,8 +71,9 @@ gulp.task('dev-jshint', function(){
     ;
 });
 
-gulp.task('dev-browser-sync', function() {
-  browserSync.init(null, {
+gulp.task('dev-serve', function() {
+  browserSync.init('dev/**', {
+    // open: false
     server: {
       baseDir: "./dev"
     }
@@ -146,11 +141,7 @@ gulp.task('dev-html', [
 ]);
 
 gulp.task('default', [
-  'dev-html',
-  'dev-css',
-  'dev-js',
-  'dev-browser-sync',
-  'dev-watch'
+  'dev-serve'
 ]);
 
 gulp.task('build', [

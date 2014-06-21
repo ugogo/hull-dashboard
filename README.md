@@ -5,8 +5,19 @@
 * **SASS & Autoprefixer** (CSS)
 * **Browserify & JSHint** (JS)
 * **Browser-sync** (Local server with livereload)
+
+Launch server
 ```
-  $ gulp
+$ gulp
+```
+or
+```
+$ gulp serve
+```
+
+Enable watch for generating files
+```
+$ gulp dev-watch
 ```
 
 ### Build tasks
