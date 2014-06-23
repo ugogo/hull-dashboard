@@ -12,7 +12,7 @@ $ gulp
 ```
 or
 ```
-$ gulp serve
+$ gulp dev-serve
 ```
 
 Enable watch for generating files
