@@ -64,7 +64,7 @@ gulp.task('dev-js-browserify', function(){
     ;
 });
 
-gulp.task('dev-jshint', function(){
+gulp.task('dev-js-jshint', function(){
   return gulp.src('./src/js/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -128,19 +128,31 @@ gulp.task('build-deploy', function(){
 
 
 
-// main tasks
-
-gulp.task('dev-js', [
-  'dev-js-browserify',
-  'dev-jshint'
-]);
+// group tasks
 
 gulp.task('dev-html', [
   'dev-html-clean',
   'dev-jade'
 ]);
 
+gulp.task('dev-css', [
+  'dev-css-autoprefix',
+  'dev-css-sass'
+]);
+
+gulp.task('dev-js', [
+  'dev-js-browserify',
+  'dev-js-jshint'
+]);
+
+gulp.task('dev-generate-files', [
+  'dev-html',
+  'dev-css',
+  'dev-js'
+]);
+
 gulp.task('default', [
+  'dev-generate-files',
   'dev-serve'
 ]);
 

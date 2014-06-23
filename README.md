@@ -1,28 +1,29 @@
-# Gulp-starter
+#Gulp.js starter
 
-### Dev tasks
-* **Jade** (HTML)
-* **SASS & Autoprefixer** (CSS)
-* **Browserify & JSHint** (JS)
-* **Browser-sync** (Local server with livereload)
+###Dev tasks
+- **Jade,** for HTML files
+- **Sass and Autoprefixers,** for CSS files
+- **Browserify and JSHint,** for JS files
+- **Browser-sync,** for generating a local server
 
-Launch server
+-
+Generate files (html/css/js), then launch a local server
 ```
 $ gulp
 ```
-or
-```
-$ gulp dev-serve
-```
-
-Enable watch for generating files
+-
+Watch files (jade/scss/js)
 ```
 $ gulp dev-watch
 ```
 
-### Build tasks
-* **Minify** (HTML/CSS/JS)
-* **Deploy** (gh-pages)
+-
+###Build tasks
+- **Minify,** for HTML/CSS/JS/images files
+- **gh-pages,** for deploying on GitHub Pages
+
+-
+Build project
 ```
   $ gulp build
 ```
