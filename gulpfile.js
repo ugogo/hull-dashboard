@@ -7,6 +7,7 @@ var gulp    = require('gulp')
 
   , jade        = require('gulp-jade')
   , sass        = require('gulp-sass')
+  , gutil       = require('gulp-util')
   , prefix      = require('gulp-autoprefixer')
   , source      = require('vinyl-source-stream')
   , jshint      = require('gulp-jshint')
@@ -21,6 +22,18 @@ var gulp    = require('gulp')
   , jsmin   = require('gulp-uglify')
   , deploy  = require('gulp-gh-pages')
   ;
+
+
+
+// handle errors
+
+function handleError(err) {
+  var taskErrorMessage = 'An error occurred';
+  var errorMessage = err.toString();
+  gutil.log(gutil.colors.red(taskErrorMessage));
+  gutil.log(gutil.colors.red(errorMessage));
+  this.emit('end');
+};
 
 
 
@@ -43,11 +56,22 @@ gulp.task('dev-jade', function(){
     ;
 });
 
-gulp.task('dev-css', function(){
-  return gulp.src('./src/scss/*.scss')
+gulp.task('dev-css-autoprefix', ['dev-css-sass'], function(){
+  return gulp.src('./dev/css/*.css')
     .pipe(plumber())
-    .pipe(sass())
     .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
+    .pipe(gulp.dest('./dev/css/'))
+    ;
+});
+
+gulp.task('dev-css-sass', function(){
+  var opts = {
+    sourceMap: 'none',
+    sourceComments: 'map'
+  };
+  return gulp.src('./src/scss/*.scss')
+    .pipe(sass())
+    .on('error', handleError)
     .pipe(gulp.dest('./dev/css/'))
     ;
 });
@@ -59,6 +83,7 @@ gulp.task('dev-js-browserify', function(){
   };
   return browserify('./src/js/app')
     .bundle(opts)
+    .on('error', handleError)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
     ;
@@ -136,8 +161,7 @@ gulp.task('dev-html', [
 ]);
 
 gulp.task('dev-css', [
-  'dev-css-autoprefix',
-  'dev-css-sass'
+  'dev-css-autoprefix'
 ]);
 
 gulp.task('dev-js', [
@@ -153,7 +177,8 @@ gulp.task('dev-generate-files', [
 
 gulp.task('default', [
   'dev-generate-files',
-  'dev-serve'
+  'dev-serve',
+  'dev-watch'
 ]);
 
 gulp.task('build', [
