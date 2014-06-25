@@ -7,14 +7,9 @@
 - **Browser-sync,** for generating a local server
 
 -
-Generate files (html/css/js), then launch a local server
+Generate and watch files, launch a local server
 ```
 $ gulp
-```
--
-Watch files (jade/scss/js)
-```
-$ gulp dev-watch
 ```
 
 -
