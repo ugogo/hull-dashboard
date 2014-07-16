@@ -1,2 +1,10 @@
-@import "partials/file1";
+
+// core
+@import "core/normalize";
+
+// helpers
+@import "helpers/vars";
+@import "helpers/mixins";
+
+// else
 @import "partials/file2";
