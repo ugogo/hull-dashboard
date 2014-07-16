@@ -100,7 +100,8 @@ gulp.task('dev-serve', function() {
   browserSync.init('dev/**', {
     // open: false
     server: {
-      baseDir: "./dev"
+      baseDir: './dev',
+      proxy: 'localhost:3000'
     }
   });
 });
