@@ -183,6 +183,7 @@ gulp.task('default', [
 ]);
 
 gulp.task('build', [
+  'dev-generate-files',
   'build-clean',
   'build-html',
   'build-css',
