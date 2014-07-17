@@ -117,7 +117,7 @@ gulp.task('dev-watch', function(){
 // build task
 
 gulp.task('build-clean', function(){
-  return gulp.src('./dist/**/*', { read:false })
+  return gulp.src('./dist/', { read:false })
     .pipe(clean({ force: true }))
     ;
 });
@@ -146,7 +146,11 @@ gulp.task('build-js', function(){
     ;
 });
 
-gulp.task('build-deploy', function(){
+
+
+// deploy
+
+gulp.task('deploy', function(){
   return gulp.src('./dist/**/*')
     .pipe(deploy())
     ;
@@ -187,6 +191,5 @@ gulp.task('build', [
   'build-clean',
   'build-html',
   'build-css',
-  'build-js',
-  'build-deploy'
+  'build-js'
 ]);
