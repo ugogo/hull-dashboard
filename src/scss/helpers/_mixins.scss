@@ -1,16 +1,16 @@
 
-/****
-  * Useful functions
-****/
+/*
+ * $Useful functions
+ */
  @function calculateRem($size) {
   $remSize: $size / 16px;
   @return $remSize * 1rem;
 }
 
 
-/****
-  * $Blocks
-****/
+/*
+ * $Blocks
+ */
 @mixin pos($type, $top, $right, $bottom, $left){
   @if  $type == "r"
     or $type == "a"
@@ -35,9 +35,9 @@
 }
 
 
-/****
-  * $Breakpoints
-****/
+/*
+ * $Breakpoints
+ */
 @mixin bp-large {
   @media only screen and (max-width: $bp-large) {
     @content;
@@ -55,9 +55,9 @@
 }
 
 
-/****
-  * $Typography
-****/
+/*
+ * $Typography
+ */
 @mixin fz($size, $lh) {
   font-size: $size;
   font-size: calculateRem($size);
@@ -70,9 +70,9 @@
 }
 
 
-/****
-  * Colors
-****/
+/*
+ * $Colors
+ */
 @function RGBAblack($opacity){
   @return rgba(0,0,0, $opacity);
 }
