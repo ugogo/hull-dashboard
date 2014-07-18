@@ -1,0 +1,33 @@
+extends partials/layout
+
+block head
+  title Gulp starter
+
+block content
+  //- Variables
+  - var me = {first_name: "Ugo", last_name: "Onali", city: "Paris"}
+  - var last_name = me.last_name
+  - var letters = last_name.split("")
+
+  //- Content
+  .app
+    h1 Hey Gulp
+    p My first name is #{me.first_name}, I live in 
+      if me.city
+        | #{me.city}
+      else
+        | nowhere, I'm homeless
+
+    if letters
+      br
+      h2 For loop in last_name
+      p
+        - for (i=0; i<letters.length; i++)
+          span #{letters[i]}
+          if i < letters.length - 1
+            | -
+
+    br
+    h2 Mixin example  
+    +article("HOO HAH!")
+
