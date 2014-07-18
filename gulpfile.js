@@ -14,6 +14,7 @@ var gulp    = require('gulp')
   , stylish     = require('jshint-stylish')
   , browserify  = require('browserify')
   , browserSync = require('browser-sync')
+  , browserReload = browserSync.reload
 
   // build
 
@@ -49,10 +50,11 @@ gulp.task('dev-jade', function(){
   var opts = {
     pretty: true
   };
-  return gulp.src('./src/*.jade')
+  return gulp.src('src/jade/*.jade')
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
+    .pipe(browserReload({ stream: true }))
     ;
 });
 
@@ -61,6 +63,7 @@ gulp.task('dev-css-autoprefix', ['dev-css-sass'], function(){
     .pipe(plumber())
     .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
     .pipe(gulp.dest('./dev/css/'))
+    .pipe(browserReload({ stream: true }))
     ;
 });
 
@@ -81,11 +84,15 @@ gulp.task('dev-js-browserify', function(){
     insertGlobals: false,
     debug: true
   };
-  return browserify('./src/js/app')
+  return browserify('./src/js/app.js')
     .bundle(opts)
     .on('error', handleError)
     .pipe(source('app.js'))
     .pipe(gulp.dest('./dev/js/'))
+    .pipe(browserReload({
+      stream: true,
+      once: true
+    }))
     ;
 });
 
@@ -97,19 +104,19 @@ gulp.task('dev-js-jshint', function(){
 });
 
 gulp.task('dev-serve', function() {
-  browserSync.init('dev/**', {
+  var opts = {
     // open: false
     server: {
-      baseDir: './dev',
-      proxy: 'localhost:3000'
+      baseDir: './dev'
     }
-  });
+  };
+  browserSync.init(opts);
 });
 
 gulp.task('dev-watch', function(){
-  gulp.watch('src/**/*.js',   ['dev-js']);
-  gulp.watch('src/**/*.jade', ['dev-jade']);
-  gulp.watch('src/**/*.scss', ['dev-css']);
+  gulp.watch('src/js/**',   ['dev-js']);
+  gulp.watch('src/jade/**', ['dev-jade']);
+  gulp.watch('src/scss/**', ['dev-css']);
 });
 
 
@@ -175,9 +182,9 @@ gulp.task('dev-js', [
 ]);
 
 gulp.task('dev-generate-files', [
-  'dev-html',
+  'dev-js',
   'dev-css',
-  'dev-js'
+  'dev-html'
 ]);
 
 gulp.task('default', [
