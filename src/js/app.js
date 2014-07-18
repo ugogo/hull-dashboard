@@ -1,5 +1,5 @@
-var sayHello = require('./say-hello');
-var sayHi    = require('./say-hi');
+$ = require('zepto-browserify').$;
 
-sayHello();
-sayHi();
+$(function(){
+  console.log('DOM ready');
+});
