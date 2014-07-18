@@ -1,10 +1,26 @@
 
-// core
-@import "core/normalize";
+/*
+ * Core
+ */
 
-// helpers
+@import "core/normalize";
+@import "core/main";
+
+
+
+/*
+ * Helpers
+ */
+
 @import "helpers/vars";
 @import "helpers/mixins";
 
-// else
+
+
+/*
+ * Temp
+ */
+
 @import "partials/file2";
+
+
