@@ -50,7 +50,7 @@ gulp.task('dev-jade', function(){
   var opts = {
     pretty: true
   };
-  return gulp.src('src/jade/*.jade')
+  return gulp.src(['./src/jade/**/*.jade', '!./src/jade/partials/**'])
     .pipe(plumber())
     .pipe(jade(opts))
     .pipe(gulp.dest('./dev/'))
