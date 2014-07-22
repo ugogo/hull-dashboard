@@ -9,6 +9,7 @@ node_modules/
 dev/
 dist/
 tmp/
+src/images/
 
 pizza/
 bbq/
