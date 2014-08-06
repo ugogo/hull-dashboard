@@ -1,7 +1,7 @@
 
 var gulp    = require('gulp')
-  , rimraf  = require('gulp-rimraf')
   , plumber = require('gulp-plumber')
+  , del      = require('del')
 
   // dev
 
@@ -44,8 +44,10 @@ function handleError(err) {
 // dev tasks
 
 gulp.task('dev-html-clean', function(){
-  return gulp.src('./dev/*.html', { read: false })
-    .pipe(rimraf());
+  var opts = {
+    force: true
+  };
+  return del('dev/*.html', opts);
 });
 
 gulp.task('dev-jade', function(){
@@ -138,8 +140,10 @@ gulp.task('dev-watch', function(){
 // build task
 
 gulp.task('build-clean', function(){
-  return gulp.src('./dist/**', { read: false })
-    .pipe(rimraf({ force: true }));
+  var opts = {
+    force: true
+  };
+  return del('build/', opts);
 });
 
 gulp.task('build-html', function(){
