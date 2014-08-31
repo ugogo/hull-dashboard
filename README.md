@@ -2,23 +2,28 @@
 
 ###Dev tasks
 - **Jade,** for HTML files
-- **Sass and Autoprefixers,** for CSS files
+- **Sass and Autoprefixer,** for CSS files
 - **Browserify and JSHint,** for JS files
 - **Browser-sync,** for generating a local server
 
 -
-Generate and watch files, launch a local server
+Generate files, watch them and launch a local server
 ```
 $ gulp
 ```
 
 -
 ###Build tasks
-- **Minify,** for HTML/CSS/JS/images files
-- **gh-pages,** for deploying on GitHub Pages
+- **Minify** HTML/CSS/JS/images files
+- **Gh-pages,** for deploying on GitHub Pages
 
 -
-Build project
+Build files
 ```
   $ gulp build
+```
+-
+Deploy
+```
+  $ gulp deploy
 ```
