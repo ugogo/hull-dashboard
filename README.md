@@ -27,3 +27,7 @@ Deploy
 ```
   $ gulp deploy
 ```
+
+-
+###Todo
+- [ ] Optimize webfonts files ?

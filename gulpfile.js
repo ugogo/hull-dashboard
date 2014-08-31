@@ -133,6 +133,12 @@ var del = require('del'),
       .pipe(gulp.dest('dist/js/'));
   });
 
+// webfonts tasks
+  gulp.task('dev-fonts', function(){
+    return gulp.src('./src/fonts/**')
+      .pipe(gulp.dest('./dist/fonts/'))
+  });
+
 // imgs tasks
   gulp.task('dev-imgs', function (){
     return gulp.src('src/imgs/**')
@@ -150,10 +156,11 @@ var del = require('del'),
 
 // local tasks
   gulp.task('dev-watch', function(){
-    gulp.watch('src/js/**',   ['dev-js']);
-    gulp.watch('src/scss/**', ['dev-css']);
-    gulp.watch('src/jade/**', ['dev-html']);
-    gulp.watch('src/imgs/**', ['dev-imgs']);
+    gulp.watch('src/js/**',    ['dev-js']);
+    gulp.watch('src/scss/**',  ['dev-css']);
+    gulp.watch('src/jade/**',  ['dev-html']);
+    gulp.watch('src/imgs/**',  ['dev-imgs']);
+    gulp.watch('src/fonts/**', ['dev-fonts']);
   });
   gulp.task('dev-serve', function(){
     browserSync.init(opts.browserSync);
@@ -163,7 +170,8 @@ var del = require('del'),
     'dev-html',
     'dev-css',
     'dev-js',
-    'dev-imgs'
+    'dev-imgs',
+    'dev-fonts'
   ]);
   gulp.task('default', [
     'dev-generate-files',
