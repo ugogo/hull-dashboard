@@ -1,5 +1,2 @@
-$ = require('zepto-browserify').$;
-
-$(function(){
-  console.log('DOM ready');
-});
+var str = require('./tools/str');
+console.log(str);
