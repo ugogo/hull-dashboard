@@ -11,25 +11,32 @@ block content
 
   //- Content
   .app
-    h1 Hey Gulp
-    p My first name is #{me.first_name}, I live in 
-      if me.city
-        | #{me.city}
-      else
-        | nowhere, I'm homeless
+    section
+      h1 Adipiscing Vestibulum Ridiculus Tristique
+      h2 Magna Inceptos Egestas Euismod
+      p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      h2 Fringilla Pharetra Condimentum Ipsum Vehicula
+      p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+    section
+      h1 Hey Gulp
+      p My first name is #{me.first_name}, I live in 
+        if me.city
+          | #{me.city}
+        else
+          | nowhere, I'm homeless
 
     if letters
-      br
-      h2 For loop in last_name
-      p
-        - for (i=0; i<letters.length; i++)
-          span #{letters[i]}
-          if i < letters.length - 1
-            | -
+      section
+        h1 For loop in last_name
+        p
+          - for (i=0; i<letters.length; i++)
+            span #{letters[i]}
+            if i < letters.length - 1
+              | -
 
-    br
-    h2 Mixin example  
-    +article("HOO HAH!")
+    section
+      h1 Mixin example  
+      +article("HOO HAH!")
 
 block scripts
   script(src="js/app.js")

@@ -1,0 +1,45 @@
+body {
+  font-family: $helvNeue;
+  font-weight: 400;
+  color: $grey;
+  -webkit-font-smoothing: antialiased;
+}
+
+section {
+  margin-bottom: 4em;
+}
+
+.app {
+  margin: 0 auto;
+  padding-top: 5em;
+
+  // mixins tests
+  @include rem(width, 600px);
+  @include fz(16px, 1.5);
+
+  // autoprefixer tests
+  box-sizing: border-box;
+  transition: all 1s ease-out;
+}
+
+
+/*
+ * $Typo
+ */
+h1, h2 {
+  margin: 0 0 .3em 0;
+  font-weight: 600;
+  color: $grey--darker;
+}
+
+h1 {
+  font-size: 1.8em;
+}
+h2 {
+  font-size: 1.2em;
+}
+
+p {
+  line-height: 1.8;
+  margin: 0 0 1em 0;
+}

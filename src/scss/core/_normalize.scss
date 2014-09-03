@@ -10,6 +10,7 @@ html {
 }
 
 
+
 /*
  * Remove default margin.
  */
@@ -425,6 +426,7 @@ th {
 }
 
 
+
 /*
  * Helpers
  */
@@ -444,6 +446,7 @@ th {
 }
 
 
+
 /*
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
@@ -456,6 +459,7 @@ th {
   margin: 0;
   clip: auto;
 }
+
 
 
 /*
@@ -479,6 +483,7 @@ th {
 }
 
 
+
 /*
 * What follows is the result of much research on cross-browser styling.
 * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
@@ -489,6 +494,8 @@ html {
   font-size: 1em;
   line-height: 1.4;
 }
+
+
 
 /*
 * Remove text-shadow in selection highlight: h5bp.com/i
@@ -553,3 +560,6 @@ textarea {
   resize: vertical;
 }
 
+.bolder {
+  font-weight: 800;
+}
