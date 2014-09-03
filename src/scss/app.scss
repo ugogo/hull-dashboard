@@ -3,13 +3,13 @@
  * Core
  */
 @import "core/normalize";
-@import "core/main";
 @import "core/vars";
 @import "core/mixins";
 @import "core/placeholders";
 
 
 /*
- * Temp
+ * Content
  */
+@import "core/main";
 @import "partials/file2";
