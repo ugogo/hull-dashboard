@@ -1,9 +1,9 @@
-#Gulp.js starter
+#Hull dashboard
 
 ###Dev tasks
 - **Jade,** for HTML files
 - **Sass and Autoprefixer,** for CSS files
-- **Browserify and JSHint,** for JS files
+- **JSHint,** for JS files
 - **Browser-sync,** for generating a local server
 
 -
@@ -27,7 +27,3 @@ Deploy
 ```
   $ gulp deploy
 ```
-
--
-###Todo
-- [ ] Optimize webfonts files ?
