@@ -40,8 +40,8 @@ var del = require('del'),
         comments: false
       },
       sass: {
-        sourceMap: 'none',
-        sourceComments: 'map'
+        // sourceMap: 'none',
+        // sourceComments: 'map'
       },
       browserify: {
         debug: true,
@@ -108,17 +108,12 @@ var del = require('del'),
   gulp.task('dev-js', function(){
     gulp.src('./src/js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
-
-    return browserify('./src/js/app.js', opts.browserify)
-      .bundle()
-      .on('error', handleError)
-      .pipe(source('app.js'))
-      .pipe(gulp.dest('dist/js/'))
-      .pipe(browserReload({
-        stream: true,
-        once: true
-      }));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(gulp.dest('dist/js/'))
+    .pipe(browserReload({
+      stream: true,
+      once: true
+    }));
   });
   gulp.task('build-js', function(){
     gulp.src('src/js/**/*.js')

@@ -1,42 +1,18 @@
 extends partials/layout
 
 block head
-  title Gulp starter
+  title Hull - Dashboard
 
 block content
-  //- Variables
-  - var me = {first_name: "Ugo", last_name: "Onali", city: "Paris"}
-  - var last_name = me.last_name
-  - var letters = last_name.split("")
+  
 
   //- Content
   .app
-    section
-      h1 Adipiscing Vestibulum Ridiculus Tristique
-      h2 Magna Inceptos Egestas Euismod
-      p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      h2 Fringilla Pharetra Condimentum Ipsum Vehicula
-      p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-    section
-      h1 Hey Gulp
-      p My first name is #{me.first_name}, I live in 
-        if me.city
-          | #{me.city}
-        else
-          | nowhere, I'm homeless
-
-    if letters
-      section
-        h1 For loop in last_name
-        p
-          - for (i=0; i<letters.length; i++)
-            span #{letters[i]}
-            if i < letters.length - 1
-              | -
-
-    section
-      h1 Mixin example  
-      +article("HOO HAH!")
-
-block scripts
-  script(src="js/app.js")
+    h1 Hull Dashboard
+    section.hull-init-section.js-hull-init-section
+      form.js-hull-init
+        h2 Init Hull
+        fieldset
+          input#hull-init-appid.js-hull-init-appid(type="text", placeholder="App ID", value="540587fddd2ca9fb3c000bf3")
+          input#hull-init-orgurl.js-hull-init-orgurl(type="text", placeholder="Org URL", value="https://835b18df.hullapp.io")
+          button.btn.js-init-hull Init Hull app
