@@ -7,7 +7,7 @@ body {
 
 section {
   padding: 0 0 1em .1em;
-  margin-bottom: 4em;
+  margin-bottom: 2em;
   border-bottom: 1px solid #ccc;
 }
 
@@ -16,4 +16,8 @@ section {
   margin: 0 auto;
   padding-top: 5em;
   transition: all .3s ease-out;
+}
+
+.none {
+  display: none;
 }

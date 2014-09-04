@@ -9,6 +9,10 @@ input, label {
   cursor: pointer;
 }
 
+label + input {
+  margin-left: 1em;
+}
+
 button, input {
   display: inline-block;
   vertical-align: middle;
