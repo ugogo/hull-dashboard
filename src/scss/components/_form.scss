@@ -1,3 +1,7 @@
+form {
+  padding-top: .8em;
+}
+
 fieldset {
   padding-bottom: 1em;
   &:last-child {
@@ -33,3 +37,8 @@ button {
   color: #eee;
   border: 0;
 }
+
+.form-button-container {
+  padding-top: .5em;
+}
+
