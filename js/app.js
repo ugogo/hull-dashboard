@@ -13,8 +13,12 @@ $(function(){
   };
 
   _hull = {
+    $initSection: $('.js-hull-init-section'),
+    $loginSection: $('.js-hull-login-section'),
+    args: [],
+
     prepare: function(){
-      var $form = $('.js-hull-init');
+      var $form = $('.js-hull-init-form');
       var $orgurl = $form.find('.js-hull-init-orgurl');
       var $appid = $form.find('.js-hull-init-appid');
 
@@ -36,13 +40,61 @@ $(function(){
         orgUrl: _orgurl, 
         appId: _appid,
         debug: true
-      }, function(){
-        _hull.ready();
+      }, function(hull, me, app, org){
+        _hull.ready(hull, me, app, org);
       });
     },
     ready: function(){
-      console.log('hull ready');
-      $('.hull-init-section').hide();
+      var args = arguments;
+      this.saveArgs(arguments);
+      this.$initSection.find('h2').html('Init Hull: OK');
+      this.$initSection.find('.js-hull-init-form').addClass('none');
+      this.settings.init();
+    },
+    saveArgs: function(args){
+      var argSize = args.length;
+      for(var i=0; i<argSize; i++){
+        this.args.push(args[i]);
+      }
+    },
+
+    settings: {
+      $section: $('.js-hull-settings-section'),
+      $form: $('.js-hull-settings-form'),
+      $container: $('.js-hull-settings-container'),
+
+      create: function(labelStr, inputStr){
+        var $fieldset = $('<fieldset></fieldset>');
+        var $label = $('<label />');
+        var $input = $('<input type="text" />');
+
+        if(labelStr && inputStr){
+          labelStr = labelStr.split(' ').join('-');
+          $label.attr('for', 'hull-settings-'+ labelStr)
+            .html(labelStr);
+          $input.attr({
+            'id': 'hull-settings-'+ labelStr,
+            'value': inputStr
+          });
+          $fieldset.append($label, $input);
+          return $fieldset;
+        }
+      },
+      init: function(){
+        var _this = this;
+        this.fetch(function(){
+          _this.$section.removeClass('none');
+        });
+      },
+      fetch: function(cb){
+        var _this = this;
+        var settings = _hull.args[2].extra;
+        for(key in settings){
+          var $setting = _this.create(key, settings[key]);
+          this.$container.append($setting);
+        }
+        if(cb) cb();
+      }
     }
   };
 

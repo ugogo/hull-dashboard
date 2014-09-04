@@ -439,10 +439,10 @@ h1, h2 {
 
 h1 {
   font-size: 1.8em;
-  margin-bottom: 0.5em; }
+  margin-bottom: 1.5em; }
 
 h2 {
-  font-size: 1.2em; }
+  font-size: 1.5em; }
 
 p {
   line-height: 1.8;
@@ -455,8 +455,8 @@ body {
   -webkit-font-smoothing: antialiased; }
 
 section {
-  padding: 0 0 1em 0.1em;
-  margin-bottom: 4em;
+  padding: 0 0 1.5em 0.1em;
+  margin-bottom: 2em;
   border-bottom: 1px solid #ccc; }
 
 .app {
@@ -466,13 +466,29 @@ section {
   -webkit-transition: all 0.3s ease-out;
           transition: all 0.3s ease-out; }
 
-fieldset {
+.none {
+  display: none; }
+
+form {
+  padding-top: 0.8em; }
+
+fieldset, .form-elements-container {
   padding-bottom: 1em; }
-  fieldset:last-child {
+  fieldset:last-child, .form-elements-container:last-child {
     padding-bottom: 0; }
+
+label {
+  display: inline-block;
+  vertical-align: middle;
+  width: 80px;
+  max-width: 80px;
+  overflow: hidden; }
 
 input, label {
   cursor: pointer; }
+
+label + input {
+  margin-left: 1em; }
 
 button, input {
   display: inline-block;
@@ -492,3 +508,6 @@ button {
   background-color: #444;
   color: #eee;
   border: 0; }
+
+.form-button-container {
+  padding-top: 0.5em; }
