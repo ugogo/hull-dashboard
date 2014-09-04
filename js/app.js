@@ -89,7 +89,7 @@ $(function(){
       fetch: function(cb){
         var _this = this;
         var settings = _hull.args[2].extra;
-        for(key in settings){
+        for(var key in settings){
           var $setting = _this.create(key, settings[key]);
           this.$container.append($setting);
         }
