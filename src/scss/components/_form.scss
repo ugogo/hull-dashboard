@@ -2,11 +2,20 @@ form {
   padding-top: .8em;
 }
 
-fieldset {
+fieldset,
+.form-elements-container {
   padding-bottom: 1em;
   &:last-child {
     padding-bottom: 0;
   }
+}
+
+label {
+  display: inline-block;
+  vertical-align: middle;
+  width: 80px;
+  max-width: 80px;
+  overflow: hidden;
 }
 
 input, label {
