@@ -62,6 +62,7 @@ $(function(){
       $section: $('.js-settings-section'),
       $form: $('.js-settings-form'),
       $container: $('.js-settings-container'),
+      $createBtn: $('.js-settings-create'),
 
       create: function(labelStr, inputStr){
         var $fieldset = $('<fieldset></fieldset>');
@@ -76,8 +77,8 @@ $(function(){
             'id': 'hull-settings-'+ labelStr,
             'value': inputStr
           });
-          $fieldset.append($label, $input);
-          return $fieldset;
+          $fieldset.append($label, $input)
+            .appendTo(this.$container);
         }
       },
       init: function(){
@@ -86,12 +87,16 @@ $(function(){
           _this.json = json;
           _this.$section.removeClass('none');
         });
+        this.$createBtn.on('click', function(){
+          var labelStr = prompt('KEY');
+          var inputStr = prompt('VALUE');
+          _this.create(labelStr, inputStr);
+        });
       },
       fetch: function(cb){
         var settings = _hull.args[2].extra;
         for(var key in settings){
-          var $setting = this.create(key, settings[key]);
-          this.$container.append($setting);
+          this.create(key, settings[key]);
         }
         if(cb) cb(settings);
       }
