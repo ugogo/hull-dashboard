@@ -50,6 +50,7 @@ $(function(){
       this.$initSection.find('h2').html('Init Hull: OK');
       this.$initSection.find('.js-init-form').addClass('none');
       this.settings.init();
+      this.samplers.init();
     },
     saveArgs: function(args){
       var argSize = args.length;
@@ -145,6 +146,42 @@ $(function(){
         var key = $fieldset.find('label').attr('for').split('hull-settings-')[1];
         this.json[key] = false;
         $fieldset.remove();
+      }
+    },
+
+    samplers: {
+      $section: $('.js-samplers-section'),
+      $select: $('.js-samplers-select'),
+
+      init: function(){
+        var _this = this;
+        this.$section.removeClass('none');
+        this.fetchSamplers(function(country, val){
+          var isNumber = !isNaN(val);
+          if(isNumber)
+            _this.addOption(country);
+        });
+        this.$select.on('change', function(){
+          var selectValue = this.value;
+          _this.takeSampler(selectValue);
+        });
+      },
+      fetchSamplers: function(cb){
+        var obj = _hull.settings.json;
+        for(var country in obj){
+          cb(country, obj[country]);
+        }
+      },
+      addOption: function(country){
+        var $option = $('<option value="'+ country +'">'+ country +'</option>');
+        this.$select.append($option);
+      },
+      takeSampler: function(country){
+        var json = _hull.settings.json;
+        json[country]--;
+        _hull.settings.save(json, function(data){
+          alert('Done');
+        });
       }
     }
   };
