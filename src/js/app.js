@@ -64,12 +64,14 @@ $(function(){
       $container: $('.js-settings-container'),
       $createBtn: $('.js-settings-create'),
       $saveBtn: $('.js-settings-save'),
+      $removeBtn: $('.js-setting-delete'),
       json: {},
 
       create: function(labelStr, inputStr){
         var $fieldset = $('<fieldset></fieldset>');
         var $label = $('<label />');
         var $input = $('<input type="text" />');
+        var $removeBtn = $('<button type="button" class="js-setting-delete">Remove</button>');
 
         labelStr = labelStr.split(' ').join('-');
 
@@ -80,7 +82,7 @@ $(function(){
           'id': 'hull-settings-'+ labelStr,
           'value': inputStr
         });
-        $fieldset.append($label, $input)
+        $fieldset.append($label, $input, $removeBtn)
           .appendTo(this.$container);
 
         // store in json
@@ -101,6 +103,10 @@ $(function(){
             alert('Settings saved');
           });
         });
+        this.$removeBtn.live('click', function(){
+          var $fieldset = $(this).closest('fieldset');
+          _this.remove($fieldset);
+        });
       },
       fetch: function(cb){
         var settings = _hull.args[2].extra;
@@ -118,6 +124,11 @@ $(function(){
         }).then(function(data){
           if(cb) cb(data);
         });
+      },
+      remove: function($fieldset){
+        var key = $fieldset.find('label').attr('for').split('hull-settings-')[1];
+        this.json[key] = false;
+        $fieldset.remove();
       }
     }
   };
