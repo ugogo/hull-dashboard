@@ -99,7 +99,7 @@ $(function(){
           _this.create(labelStr, inputStr);
         });
         this.$saveBtn.on('click', function(){
-          _this.save(function(){
+          _this.save(function(data){
             alert('Settings saved');
           });
         });
@@ -117,18 +117,26 @@ $(function(){
         }
         if(cb) cb();
       },
-      save: function(cb){
+      save: function(json, cb){
         var _this = this;
+        var jsonToSave;
 
-        this.$container.find('fieldset').forEach(function(el){
-          var $this = $(el);
-          var labelStr = $this.find('label').html();
-          var valueStr = $this.find('input').val();
-          _this.json[labelStr] = valueStr;
-        });
+        if(typeof json === 'object'){
+          jsonToSave = json;
+        }
+        else {
+          cb = json;
+          jsonToSave = {};
+          this.$container.find('fieldset').forEach(function(el){
+            var $this = $(el);
+            var labelStr = $this.find('label').html();
+            var valueStr = $this.find('input').val();
+            jsonToSave[labelStr] = valueStr;
+          });
+        }
         
         Hull.api('app', 'put', {
-          extra: _this.json
+          extra: jsonToSave
         }).then(function(data){
           if(cb) cb(data);
         });
