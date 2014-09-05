@@ -97,13 +97,17 @@ $(function(){
           _this.create(labelStr, inputStr);
         });
         this.$saveBtn.on('click', function(){
-          _this.save();
+          _this.save(function(){
+            alert('Settings saved');
+          });
         });
       },
       fetch: function(cb){
         var settings = _hull.args[2].extra;
         for(var key in settings){
-          this.create(key, settings[key]);
+          var val = settings[key];
+          if(val !== false)
+            this.create(key, val);
         }
         if(cb) cb();
       },
