@@ -82,18 +82,18 @@ $(function(){
       },
       init: function(){
         var _this = this;
-        this.fetch(function(){
+        this.fetch(function(json){
+          _this.json = json;
           _this.$section.removeClass('none');
         });
       },
       fetch: function(cb){
-        var _this = this;
         var settings = _hull.args[2].extra;
         for(var key in settings){
-          var $setting = _this.create(key, settings[key]);
+          var $setting = this.create(key, settings[key]);
           this.$container.append($setting);
         }
-        if(cb) cb();
+        if(cb) cb(settings);
       }
     }
   };
