@@ -119,6 +119,14 @@ $(function(){
       },
       save: function(cb){
         var _this = this;
+
+        this.$container.find('fieldset').forEach(function(el){
+          var $this = $(el);
+          var labelStr = $this.find('label').html();
+          var valueStr = $this.find('input').val();
+          _this.json[labelStr] = valueStr;
+        });
+        
         Hull.api('app', 'put', {
           extra: _this.json
         }).then(function(data){
