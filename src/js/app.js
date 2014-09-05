@@ -13,14 +13,14 @@ $(function(){
   };
 
   _hull = {
-    $initSection: $('.js-hull-init-section'),
-    $loginSection: $('.js-hull-login-section'),
+    $initSection: $('.js-init-section'),
+    $loginSection: $('.js-login-section'),
     args: [],
 
     prepare: function(){
-      var $form = $('.js-hull-init-form');
-      var $orgurl = $form.find('.js-hull-init-orgurl');
-      var $appid = $form.find('.js-hull-init-appid');
+      var $form = $('.js-init-form');
+      var $orgurl = $form.find('.js-init-orgurl');
+      var $appid = $form.find('.js-init-appid');
 
       $form.on('submit', function(e){
         e.preventDefault();
@@ -48,7 +48,7 @@ $(function(){
       var args = arguments;
       this.saveArgs(arguments);
       this.$initSection.find('h2').html('Init Hull: OK');
-      this.$initSection.find('.js-hull-init-form').addClass('none');
+      this.$initSection.find('.js-init-form').addClass('none');
       this.settings.init();
     },
     saveArgs: function(args){
@@ -59,9 +59,9 @@ $(function(){
     },
 
     settings: {
-      $section: $('.js-hull-settings-section'),
-      $form: $('.js-hull-settings-form'),
-      $container: $('.js-hull-settings-container'),
+      $section: $('.js-settings-section'),
+      $form: $('.js-settings-form'),
+      $container: $('.js-settings-container'),
 
       create: function(labelStr, inputStr){
         var $fieldset = $('<fieldset></fieldset>');
