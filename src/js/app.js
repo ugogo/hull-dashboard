@@ -63,28 +63,32 @@ $(function(){
       $form: $('.js-settings-form'),
       $container: $('.js-settings-container'),
       $createBtn: $('.js-settings-create'),
+      $saveBtn: $('.js-settings-save'),
+      json: {},
 
       create: function(labelStr, inputStr){
         var $fieldset = $('<fieldset></fieldset>');
         var $label = $('<label />');
         var $input = $('<input type="text" />');
 
-        if(labelStr && inputStr){
-          labelStr = labelStr.split(' ').join('-');
-          $label.attr('for', 'hull-settings-'+ labelStr)
-            .html(labelStr);
-          $input.attr({
-            'id': 'hull-settings-'+ labelStr,
-            'value': inputStr
-          });
-          $fieldset.append($label, $input)
-            .appendTo(this.$container);
-        }
+        labelStr = labelStr.split(' ').join('-');
+
+        // create html elements
+        $label.attr('for', 'hull-settings-'+ labelStr)
+          .html(labelStr);
+        $input.attr({
+          'id': 'hull-settings-'+ labelStr,
+          'value': inputStr
+        });
+        $fieldset.append($label, $input)
+          .appendTo(this.$container);
+
+        // store in json
+        this.json[labelStr] = inputStr;
       },
       init: function(){
         var _this = this;
-        this.fetch(function(json){
-          _this.json = json;
+        this.fetch(function(){
           _this.$section.removeClass('none');
         });
         this.$createBtn.on('click', function(){
@@ -92,13 +96,24 @@ $(function(){
           var inputStr = prompt('VALUE');
           _this.create(labelStr, inputStr);
         });
+        this.$saveBtn.on('click', function(){
+          _this.save();
+        });
       },
       fetch: function(cb){
         var settings = _hull.args[2].extra;
         for(var key in settings){
           this.create(key, settings[key]);
         }
-        if(cb) cb(settings);
+        if(cb) cb();
+      },
+      save: function(cb){
+        var _this = this;
+        Hull.api('app', 'put', {
+          extra: _this.json
+        }).then(function(data){
+          if(cb) cb(data);
+        });
       }
     }
   };
