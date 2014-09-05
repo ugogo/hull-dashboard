@@ -8,27 +8,25 @@
   <body>
     <div class="app">
       <h1>Hull Dashboard</h1>
-      <section class="hull-init-section js-hull-init-section">
-        <h2 class="js-hull-init-title">Init Hull</h2>
-        <form class="js-hull-init-form">
+      <section class="init-section js-init-section">
+        <h2 class="js-init-title">Init Hull</h2>
+        <form class="js-init-form">
           <fieldset>
-            <input id="hull-init-appid" type="text" placeholder="App ID" value="540587fddd2ca9fb3c000bf3" class="js-hull-init-appid">
-            <input id="hull-init-orgurl" type="text" placeholder="Org URL" value="https://835b18df.hullapp.io" class="js-hull-init-orgurl">
+            <input id="init-appid" type="text" placeholder="App ID" value="540587fddd2ca9fb3c000bf3" class="js-init-appid">
+            <input id="init-orgurl" type="text" placeholder="Org URL" value="https://835b18df.hullapp.io" class="js-init-orgurl">
           </fieldset>
           <fieldset>
-            <button class="btn js-init-hull">Init Hull app</button>
+            <button class="btn js-init">Init Hull app</button>
           </fieldset>
         </form>
       </section>
-      <section class="hull-settings-section js-hull-settings-section none">
+      <section class="settings-section js-settings-section none">
         <h2>Settings</h2>
-        <form class="js-hull-settings-form">
-          <div class="form-elements-container js-hull-settings-container"></div>
+        <form class="js-settings-form">
+          <div class="form-elements-container js-settings-container"></div>
           <fieldset class="form-button-container">
-            <button class="btn">Create new setting</button>
-          </fieldset>
-          <fieldset>
-            <button class="btn">Save settings</button>
+            <button type="button" class="btn js-settings-create">Create setting</button><span class="btn-separator">or</span>
+            <button type="button" class="btn js-settings-save">Save settings</button>
           </fieldset>
         </form>
       </section>

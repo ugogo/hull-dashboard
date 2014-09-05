@@ -13,14 +13,14 @@ $(function(){
   };
 
   _hull = {
-    $initSection: $('.js-hull-init-section'),
-    $loginSection: $('.js-hull-login-section'),
+    $initSection: $('.js-init-section'),
+    $loginSection: $('.js-login-section'),
     args: [],
 
     prepare: function(){
-      var $form = $('.js-hull-init-form');
-      var $orgurl = $form.find('.js-hull-init-orgurl');
-      var $appid = $form.find('.js-hull-init-appid');
+      var $form = $('.js-init-form');
+      var $orgurl = $form.find('.js-init-orgurl');
+      var $appid = $form.find('.js-init-appid');
 
       $form.on('submit', function(e){
         e.preventDefault();
@@ -48,7 +48,7 @@ $(function(){
       var args = arguments;
       this.saveArgs(arguments);
       this.$initSection.find('h2').html('Init Hull: OK');
-      this.$initSection.find('.js-hull-init-form').addClass('none');
+      this.$initSection.find('.js-init-form').addClass('none');
       this.settings.init();
     },
     saveArgs: function(args){
@@ -59,41 +59,76 @@ $(function(){
     },
 
     settings: {
-      $section: $('.js-hull-settings-section'),
-      $form: $('.js-hull-settings-form'),
-      $container: $('.js-hull-settings-container'),
+      $section: $('.js-settings-section'),
+      $form: $('.js-settings-form'),
+      $container: $('.js-settings-container'),
+      $createBtn: $('.js-settings-create'),
+      $saveBtn: $('.js-settings-save'),
+      $removeBtn: $('.js-setting-delete'),
+      json: {},
 
       create: function(labelStr, inputStr){
         var $fieldset = $('<fieldset></fieldset>');
         var $label = $('<label />');
         var $input = $('<input type="text" />');
+        var $removeBtn = $('<button type="button" class="js-setting-delete">Remove</button>');
 
-        if(labelStr && inputStr){
-          labelStr = labelStr.split(' ').join('-');
-          $label.attr('for', 'hull-settings-'+ labelStr)
-            .html(labelStr);
-          $input.attr({
-            'id': 'hull-settings-'+ labelStr,
-            'value': inputStr
-          });
-          $fieldset.append($label, $input);
-          return $fieldset;
-        }
+        labelStr = labelStr.split(' ').join('-');
+
+        // create html elements
+        $label.attr('for', 'hull-settings-'+ labelStr)
+          .html(labelStr);
+        $input.attr({
+          'id': 'hull-settings-'+ labelStr,
+          'value': inputStr
+        });
+        $fieldset.append($label, $input, $removeBtn)
+          .appendTo(this.$container);
+
+        // store in json
+        this.json[labelStr] = inputStr;
       },
       init: function(){
         var _this = this;
         this.fetch(function(){
           _this.$section.removeClass('none');
         });
+        this.$createBtn.on('click', function(){
+          var labelStr = prompt('KEY');
+          var inputStr = prompt('VALUE');
+          _this.create(labelStr, inputStr);
+        });
+        this.$saveBtn.on('click', function(){
+          _this.save(function(){
+            alert('Settings saved');
+          });
+        });
+        this.$removeBtn.live('click', function(){
+          var $fieldset = $(this).closest('fieldset');
+          _this.remove($fieldset);
+        });
       },
       fetch: function(cb){
-        var _this = this;
         var settings = _hull.args[2].extra;
         for(var key in settings){
-          var $setting = _this.create(key, settings[key]);
-          this.$container.append($setting);
+          var val = settings[key];
+          if(val !== false)
+            this.create(key, val);
         }
         if(cb) cb();
+      },
+      save: function(cb){
+        var _this = this;
+        Hull.api('app', 'put', {
+          extra: _this.json
+        }).then(function(data){
+          if(cb) cb(data);
+        });
+      },
+      remove: function($fieldset){
+        var key = $fieldset.find('label').attr('for').split('hull-settings-')[1];
+        this.json[key] = false;
+        $fieldset.remove();
       }
     }
   };

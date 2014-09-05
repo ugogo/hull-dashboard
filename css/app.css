@@ -469,6 +469,11 @@ section {
 .none {
   display: none; }
 
+.btn-separator {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px; }
+
 form {
   padding-top: 0.8em; }
 
