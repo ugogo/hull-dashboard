@@ -106,7 +106,7 @@ var del = require('del'),
 
 // js tasks
   gulp.task('dev-js', function(){
-    gulp.src('./src/js/**/*.js')
+    gulp.src('./src/js/**')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(gulp.dest('dist/js/'))
