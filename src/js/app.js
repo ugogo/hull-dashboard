@@ -65,6 +65,7 @@ $(function(){
       $container: $('.js-settings-container'),
       $createBtn: $('.js-settings-create'),
       $removeBtn: $('.js-setting-delete'),
+      $receivers: $('.js-setting-receiver'),
       json: {},
 
       create: function(labelStr, inputStr){
@@ -92,6 +93,7 @@ $(function(){
         var _this = this;
         this.fetch(function(){
           _this.$section.removeClass('none');
+          _this.set();
         });
         this.$createBtn.on('click', function(){
           var labelStr = prompt('KEY');
@@ -117,6 +119,14 @@ $(function(){
             this.create(key, val);
         }
         if(cb) cb();
+      },
+      set: function(){
+        this.$receivers.each(function(i, el){
+          var $el = $(el);
+          var settings = _hull.args[2].extra;
+          var settingKey = $el.attr('data-setting-key');
+          $el.html(settings[settingKey]);
+        });
       },
       save: function(json, cb){
         var _this = this;
