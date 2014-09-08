@@ -18,6 +18,12 @@ section {
   transition: all .3s ease-out;
 }
 
+.main-title {
+  margin-bottom: 1em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #ccc;
+}
+
 .none {
   display: none;
 }

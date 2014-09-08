@@ -1,0 +1,8 @@
+.grid-el {
+  display: inline-block;
+  vertical-align: top;
+
+  &.grid--half {
+    width: 49%;
+  }
+}
