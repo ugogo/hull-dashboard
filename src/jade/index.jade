@@ -6,38 +6,9 @@ block head
 block content
   .app
     h1.main-title Hull Dashboard
-
-    section.init-section.js-init-section
-      h2.js-init-title Init Hull
-      form.js-init-form
-        fieldset
-          input#init-appid.js-init-appid(type="text", placeholder="App ID", value="540587fddd2ca9fb3c000bf3")
-          input#init-orgurl.js-init-orgurl(type="text", placeholder="Org URL", value="https://835b18df.hullapp.io")
-        fieldset
-          button.btn.js-init Init Hull app
-
-    section.settings-section.js-settings-section.none
-      .grid-el.grid--half
-        h2 Settings - Back office
-        form.js-settings-form
-          .form-elements-container.js-settings-container
-          fieldset.form-button-container
-            button(type="button").btn.js-settings-create Create setting
-            span.btn-separator or
-            button(type="submit").btn.js-settings-save Save settings
-      .grid-el.grid--half
-        h2 Settings - Front
-        p This a receiver for 'setting-1': 
-          span.js-setting-receiver(data-setting-key="setting-1")
-          br
-          | And another one for 'my-bla-bla': 
-          span.js-setting-receiver(data-setting-key="my-bla-bla")
-
-    section.samplers-section.js-samplers-section.none
-      h1 Participate
-      h2 Samplers
-      select.js-samplers-select
-        option Choose a country
+    include partials/init-section
+    include partials/settings-section
+    include partials/participate-section
 
 block scripts
   script(src="js/app.js")

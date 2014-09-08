@@ -1,0 +1,16 @@
+section.settings-section.js-settings-section.none
+  .grid-el.grid--half
+    h2 Settings - Back office
+    form.js-settings-form
+      .form-elements-container.js-settings-container
+      fieldset.form-button-container
+        button(type="button").btn.js-settings-create Create setting
+        span.btn-separator or
+        button(type="submit").btn.js-settings-save Save settings
+  .grid-el.grid--half
+    h2 Settings - Front
+    p This a receiver for 'setting-1': 
+      span.js-setting-receiver(data-setting-key="setting-1")
+      br
+      | And another one for 'my-bla-bla': 
+      span.js-setting-receiver(data-setting-key="my-bla-bla")
