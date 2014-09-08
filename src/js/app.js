@@ -51,7 +51,7 @@ $(function(){
       this.$initSection.find('.js-init-form').addClass('none');
       this.settings.init();
       this.samplers.init();
-      _notif.init();
+      _notify.init();
     },
     saveArgs: function(args){
       var argSize = args.length;
@@ -102,7 +102,7 @@ $(function(){
         });
         this.$saveBtn.on('click', function(){
           _this.save(function(data){
-            _notif.show('success', 'Settings saved!');
+            _notify.show('success', 'Settings saved!');
           });
         });
         this.$removeBtn.live('click', function(){
@@ -181,17 +181,18 @@ $(function(){
         var json = _hull.settings.json;
         json[country]--;
         _hull.settings.save(json, function(data){
-          _notif.show('success', 'Sampler taken');
+          _notify.show('success', 'Sampler taken');
         });
       }
     }
   },
 
-  _notif = {
+  _notify = {
     $el: $('.js-notif'),
     $toggler: $('.js-notif-toggler'),
     baseClasses: 'notif js-notif',
-    outClass: 'fadeOut',
+    outClass: 'fadeOutUp',
+    inClass: 'fadeInDown',
 
     init: function(){
       var _this = this;
@@ -218,7 +219,7 @@ $(function(){
       this.$el
         .attr('data-status', status)
         .html(content)
-        .toggleClass('hidden bounceIn animated');
+        .toggleClass(this.inClass+' hidden animated');
     },
     showCallback: function(){
       var _this = this;
@@ -230,7 +231,7 @@ $(function(){
         var isStillShow = _this.$el.attr('data-status').length > 0;
         if(isStillShow)
           _this.hide();
-      }, 1000);
+      }, 2000);
     },
     hide: function(){
       this.$el
