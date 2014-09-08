@@ -241,7 +241,7 @@ $(function(){
         .attr('class', this.baseClasses);
 
       setTimeout(function(){
-        var isStillShow = _this.$el.attr('data-status').length > 0;
+        var isStillShow = _this.$el.attr('data-status') !== null;
         if(isStillShow)
           _this.hide();
       }, 2000);
