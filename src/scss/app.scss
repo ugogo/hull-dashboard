@@ -2,6 +2,7 @@
 /*
  * Core
  */
+@import "core/animate";
 @import "core/normalize";
 @import "core/vars";
 @import "core/mixins";
@@ -15,3 +16,4 @@
 @import "core/typo";
 @import "core/main";
 @import "components/form";
+@import "components/notif";

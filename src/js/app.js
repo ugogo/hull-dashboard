@@ -51,6 +51,7 @@ $(function(){
       this.$initSection.find('.js-init-form').addClass('none');
       this.settings.init();
       this.samplers.init();
+      _notif.init();
     },
     saveArgs: function(args){
       var argSize = args.length;
@@ -101,7 +102,7 @@ $(function(){
         });
         this.$saveBtn.on('click', function(){
           _this.save(function(data){
-            alert('Settings saved');
+            _notif.show('success', 'Settings saved!');
           });
         });
         this.$removeBtn.live('click', function(){
@@ -180,9 +181,66 @@ $(function(){
         var json = _hull.settings.json;
         json[country]--;
         _hull.settings.save(json, function(data){
-          alert('Done');
+          _notif.show('success', 'Sampler taken');
         });
       }
+    }
+  },
+
+  _notif = {
+    $el: $('.js-notif'),
+    $toggler: $('.js-notif-toggler'),
+    baseClasses: 'notif js-notif',
+    outClass: 'fadeOut',
+
+    init: function(){
+      var _this = this;
+      var $el = this.$el;
+
+      this.$toggler.on('click', function(){
+        var status = $(this).attr('data-status');
+        var content = $(this).attr('data-content');
+        _this.show(status, content);
+      });
+
+      $el.on('click', function(){
+        _this.hide();
+      });
+
+      $el.bind('webkitAnimationEnd', function(e){
+        if(e.animationName === _this.outClass)
+          _this.hideCallback();
+        else
+          _this.showCallback();
+      });
+    },
+    show: function(status, content){
+      this.$el
+        .attr('data-status', status)
+        .html(content)
+        .toggleClass('hidden bounceIn animated');
+    },
+    showCallback: function(){
+      var _this = this;
+
+      this.$el
+        .attr('class', this.baseClasses);
+
+      setTimeout(function(){
+        var isStillShow = _this.$el.attr('data-status').length > 0;
+        if(isStillShow)
+          _this.hide();
+      }, 1000);
+    },
+    hide: function(){
+      this.$el
+        .addClass(this.outClass+ ' animated');
+    },
+    hideCallback: function(){
+      this.$el
+        .attr('class', this.baseClasses+ ' hidden')
+        .removeAttr('data-status')
+        .html('');
     }
   };
 
