@@ -192,6 +192,7 @@ $(function(){
     baseClasses: 'notif js-notif',
     outClass: 'fadeOutUp',
     inClass: 'fadeInDown',
+    isBusy: false,
 
     init: function(){
       var _this = this;
@@ -215,6 +216,9 @@ $(function(){
       });
     },
     show: function(status, content){
+      if(this.isBusy) return;
+      this.isBusy = true;
+
       this.$el
         .attr('data-status', status)
         .html(content)
@@ -241,6 +245,8 @@ $(function(){
         .attr('class', this.baseClasses+ ' hidden')
         .removeAttr('data-status')
         .html('');
+
+      this.isBusy = false;
     }
   };
 
