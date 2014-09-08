@@ -47,11 +47,10 @@ $(function(){
     ready: function(){
       var args = arguments;
       this.saveArgs(arguments);
-      this.$initSection.find('h2').html('Init Hull: OK');
-      this.$initSection.find('.js-init-form').addClass('none');
+      this.$initSection.addClass('none');
       this.settings.init();
       this.samplers.init();
-      _notify.init();
+      _notify.show('success', 'Hull initialized successfully');
     },
     saveArgs: function(args){
       var argSize = args.length;
@@ -244,6 +243,8 @@ $(function(){
         .html('');
     }
   };
+
+  _notify.init();
 
   var session_orgurl = sessionStorage.get('_hull_orgurl');
   var session_appid = sessionStorage.get('_hull_appid');
