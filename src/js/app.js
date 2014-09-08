@@ -64,7 +64,6 @@ $(function(){
       $form: $('.js-settings-form'),
       $container: $('.js-settings-container'),
       $createBtn: $('.js-settings-create'),
-      $saveBtn: $('.js-settings-save'),
       $removeBtn: $('.js-setting-delete'),
       json: {},
 
@@ -99,7 +98,8 @@ $(function(){
           var inputStr = prompt('VALUE');
           _this.create(labelStr, inputStr);
         });
-        this.$saveBtn.on('click', function(){
+        this.$form.on('submit', function(e){
+          e.preventDefault();
           _this.save(function(data){
             _notify.show('success', 'Settings saved!');
           });
