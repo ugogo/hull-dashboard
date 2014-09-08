@@ -6,6 +6,7 @@
     <title>Hull - Dashboard</title>
   </head>
   <body>
+    <div class="notif js-notif hidden"></div>
     <div class="app">
       <h1>Hull Dashboard</h1>
       <section class="init-section js-init-section">
@@ -26,9 +27,16 @@
           <div class="form-elements-container js-settings-container"></div>
           <fieldset class="form-button-container">
             <button type="button" class="btn js-settings-create">Create setting</button><span class="btn-separator">or</span>
-            <button type="button" class="btn js-settings-save">Save settings</button>
+            <button type="submit" class="btn js-settings-save">Save settings</button>
           </fieldset>
         </form>
+      </section>
+      <section class="samplers-section js-samplers-section none">
+        <h1>Participate</h1>
+        <h2>Samplers</h2>
+        <select class="js-samplers-select">
+          <option>Choose a country</option>
+        </select>
       </section>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.4/zepto.min.js"></script>

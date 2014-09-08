@@ -47,9 +47,10 @@ $(function(){
     ready: function(){
       var args = arguments;
       this.saveArgs(arguments);
-      this.$initSection.find('h2').html('Init Hull: OK');
-      this.$initSection.find('.js-init-form').addClass('none');
+      this.$initSection.addClass('none');
       this.settings.init();
+      this.samplers.init();
+      _notify.show('success', 'Hull initialized successfully');
     },
     saveArgs: function(args){
       var argSize = args.length;
@@ -63,7 +64,6 @@ $(function(){
       $form: $('.js-settings-form'),
       $container: $('.js-settings-container'),
       $createBtn: $('.js-settings-create'),
-      $saveBtn: $('.js-settings-save'),
       $removeBtn: $('.js-setting-delete'),
       json: {},
 
@@ -98,9 +98,10 @@ $(function(){
           var inputStr = prompt('VALUE');
           _this.create(labelStr, inputStr);
         });
-        this.$saveBtn.on('click', function(){
-          _this.save(function(){
-            alert('Settings saved');
+        this.$form.on('submit', function(e){
+          e.preventDefault();
+          _this.save(function(data){
+            _notify.show('success', 'Settings saved!');
           });
         });
         this.$removeBtn.live('click', function(){
@@ -117,10 +118,26 @@ $(function(){
         }
         if(cb) cb();
       },
-      save: function(cb){
+      save: function(json, cb){
         var _this = this;
+        var jsonToSave;
+
+        if(typeof json === 'object'){
+          jsonToSave = json;
+        }
+        else {
+          cb = json;
+          jsonToSave = {};
+          this.$container.find('fieldset').forEach(function(el){
+            var $this = $(el);
+            var labelStr = $this.find('label').html();
+            var valueStr = $this.find('input').val();
+            jsonToSave[labelStr] = valueStr;
+          });
+        }
+        
         Hull.api('app', 'put', {
-          extra: _this.json
+          extra: jsonToSave
         }).then(function(data){
           if(cb) cb(data);
         });
@@ -130,8 +147,104 @@ $(function(){
         this.json[key] = false;
         $fieldset.remove();
       }
+    },
+
+    samplers: {
+      $section: $('.js-samplers-section'),
+      $select: $('.js-samplers-select'),
+
+      init: function(){
+        var _this = this;
+        this.$section.removeClass('none');
+        this.fetchSamplers(function(country, val){
+          var isNumber = !isNaN(val);
+          if(isNumber)
+            _this.addOption(country);
+        });
+        this.$select.on('change', function(){
+          var selectValue = this.value;
+          _this.takeSampler(selectValue);
+        });
+      },
+      fetchSamplers: function(cb){
+        var obj = _hull.settings.json;
+        for(var country in obj){
+          cb(country, obj[country]);
+        }
+      },
+      addOption: function(country){
+        var $option = $('<option value="'+ country +'">'+ country +'</option>');
+        this.$select.append($option);
+      },
+      takeSampler: function(country){
+        var json = _hull.settings.json;
+        json[country]--;
+        _hull.settings.save(json, function(data){
+          _notify.show('success', 'Sampler taken');
+        });
+      }
+    }
+  },
+
+  _notify = {
+    $el: $('.js-notif'),
+    $toggler: $('.js-notif-toggler'),
+    baseClasses: 'notif js-notif',
+    outClass: 'fadeOutUp',
+    inClass: 'fadeInDown',
+
+    init: function(){
+      var _this = this;
+      var $el = this.$el;
+
+      this.$toggler.on('click', function(){
+        var status = $(this).attr('data-status');
+        var content = $(this).attr('data-content');
+        _this.show(status, content);
+      });
+
+      $el.on('click', function(){
+        _this.hide();
+      });
+
+      $el.bind('webkitAnimationEnd', function(e){
+        if(e.animationName === _this.outClass)
+          _this.hideCallback();
+        else
+          _this.showCallback();
+      });
+    },
+    show: function(status, content){
+      this.$el
+        .attr('data-status', status)
+        .html(content)
+        .toggleClass(this.inClass+' hidden animated');
+    },
+    showCallback: function(){
+      var _this = this;
+
+      this.$el
+        .attr('class', this.baseClasses);
+
+      setTimeout(function(){
+        var isStillShow = _this.$el.attr('data-status').length > 0;
+        if(isStillShow)
+          _this.hide();
+      }, 2000);
+    },
+    hide: function(){
+      this.$el
+        .addClass(this.outClass+ ' animated');
+    },
+    hideCallback: function(){
+      this.$el
+        .attr('class', this.baseClasses+ ' hidden')
+        .removeAttr('data-status')
+        .html('');
     }
   };
+
+  _notify.init();
 
   var session_orgurl = sessionStorage.get('_hull_orgurl');
   var session_appid = sessionStorage.get('_hull_appid');
