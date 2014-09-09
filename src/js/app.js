@@ -12,7 +12,7 @@ $(function(){
     }
   };
 
-  _hull = {
+  var _hull = {
     $initSection: $('.js-init-section'),
     $loginSection: $('.js-login-section'),
     args: [],
@@ -137,13 +137,7 @@ $(function(){
         }
         else {
           cb = json;
-          jsonToSave = {};
-          this.$container.find('fieldset').forEach(function(el){
-            var $this = $(el);
-            var labelStr = $this.find('label').html();
-            var valueStr = $this.find('input').val();
-            jsonToSave[labelStr] = valueStr;
-          });
+          jsonToSave = this.json;
         }
         
         Hull.api('app', 'put', {
@@ -194,9 +188,9 @@ $(function(){
         });
       }
     }
-  },
+  };
 
-  _notify = {
+  var _notify = {
     $el: $('.js-notif'),
     $toggler: $('.js-notif-toggler'),
     baseClasses: 'notif js-notif',
@@ -260,6 +254,9 @@ $(function(){
     }
   };
 
+  window._hull = _hull;
+  window._notify = _notify;
+  
   _notify.init();
 
   var session_orgurl = sessionStorage.get('_hull_orgurl');
