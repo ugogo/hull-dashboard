@@ -137,7 +137,7 @@ $(function(){
         }
         else {
           cb = json;
-          jsonToSave = this.json;
+          jsonToSave = this.generateJSON();
         }
         
         Hull.api('app', 'put', {
@@ -150,6 +150,20 @@ $(function(){
         var key = $fieldset.find('label').attr('for').split('hull-settings-')[1];
         this.json[key] = false;
         $fieldset.remove();
+      },
+      generateJSON: function(){
+        var json = {};
+        var $fieldsets = this.$container.find('fieldset');
+
+        $fieldsets.each(function(i, el){
+          var $this = $(el);
+          var key = $this.find('label').attr('for');
+          var value = $this.find('input').val();
+
+          key = key.split('hull-settings-')[1];
+          json[key] = value;
+        });
+        return json;
       }
     },
 
