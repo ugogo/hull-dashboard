@@ -174,10 +174,8 @@ $(function(){
       init: function(){
         var _this = this;
         this.$section.removeClass('none');
-        this.fetchSamplers(function(country, val){
-          var isNumber = !isNaN(val);
-          if(isNumber)
-            _this.addOption(country);
+        this.fetchSamplers(function(country){
+          _this.addOption(country);
         });
         this.$select.on('change', function(){
           var selectValue = this.value;
@@ -186,8 +184,18 @@ $(function(){
       },
       fetchSamplers: function(cb){
         var obj = _hull.settings.json;
+
         for(var country in obj){
-          cb(country, obj[country]);
+          // check sampler- if has prefix
+          var val = obj[country];
+          var isValNumber = !isNaN(val);
+          var isSampler = country.split('sampler-').length > 1;
+
+          // if so, return country's name
+          if(isSampler && isValNumber){
+            currentCountry = country.split('sampler-')[1];
+            cb(currentCountry);
+          }
         }
       },
       addOption: function(country){
@@ -196,7 +204,7 @@ $(function(){
       },
       takeSampler: function(country){
         var json = _hull.settings.json;
-        json[country]--;
+        json['sampler-'+country]--;
         _hull.settings.save(json, function(data){
           _notify.show('success', 'Sampler taken');
         });
