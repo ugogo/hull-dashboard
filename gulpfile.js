@@ -1,59 +1,50 @@
+// global
+var del = require('del');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var browserSync = require('browser-sync');
+var browserReload = browserSync.reload;
+var deploy  = require('gulp-gh-pages');
+var options = require('minimist')(process.argv.slice(2));
 
-var del = require('del'),
-  gulp = require('gulp'),
-  gutil = require('gulp-util'),
-  browserSync = require('browser-sync'),
-  browserReload = browserSync.reload,
-  deploy  = require('gulp-gh-pages'),
+// html
+var jade = require('gulp-jade');
+var htmlmin = require('gulp-minify-html');
 
-  // html
-    jade = require('gulp-jade'),
-    htmlmin = require('gulp-minify-html'),
+// css
+var sass = require('gulp-sass');
+var prefix = require('gulp-autoprefixer');
+var cssmin  = require('gulp-cssmin');
 
-  // css
-    sass = require('gulp-sass'),
-    prefix = require('gulp-autoprefixer'),
-    cssmin  = require('gulp-cssmin'),
+// js
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var streamify = require('gulp-streamify');
+var uglify = require('gulp-uglify');
 
-  // js
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    jshint = require('gulp-jshint'),
-    stylish = require('jshint-stylish'),
-    streamify = require('gulp-streamify'),
-    uglify = require('gulp-uglify'),
+// imgs
+var imagemin = require('gulp-imagemin');
+var pngcrush = require('imagemin-pngcrush');
 
-  // imgs
-    imagemin = require('gulp-imagemin'),
-    pngcrush = require('imagemin-pngcrush'),
+// opts
+var opts = {
+  del: { force: true },
+  jade: { pretty: true },
+  htmlmin: { comments: false },
+  sass: {
+    sourceMap: 'none',
+    sourceComments: 'map'
+  },
+  browserSync: {
+    // open: false,
+    server: { baseDir: 'dist/' }
+  }
+};
 
-
-  // opts
-    opts = {
-      del: {
-        force: true
-      },
-      jade: {
-        pretty: true
-      },
-      htmlmin: {
-        comments: false
-      },
-      sass: {
-        // sourceMap: 'none',
-        // sourceComments: 'map'
-      },
-      browserify: {
-        debug: true,
-        insertGlobals: false
-      },
-      browserSync: {
-        // open: false,
-        server: {
-          baseDir: 'dist/'
-        }
-      }
-    };
+// env
+var inProd = options.prod;
 
 
 // handle errors
@@ -65,127 +56,92 @@ var del = require('del'),
     this.emit('end');
   };
 
-// html tasks
-  gulp.task('dev-html', function(){
+// html task
+  gulp.task('html', function(){
+    if(inProd)
+      del('dist/*.html', opts.del);
+    
     return gulp.src(['./src/jade/**/*.jade', '!./src/jade/partials/**'])
-      .pipe(jade(opts.jade))
+      .pipe(inProd ? jade() : jade(opts.jade))
       .on('error', handleError)
+      .pipe(inProd ? htmlmin(opts.htmlmin) : gutil.noop())
       .pipe(gulp.dest('./dist/'))
-      .pipe(browserReload({ stream: true }));
-  });
-  gulp.task('build-html', function(){
-    del('dist/*.html', opts.del);
-    return gulp.src(['./src/jade/**/*.jade', '!./src/jade/partials/**'])
-      .pipe(jade())
-      .on('error', handleError)
-      .pipe(htmlmin(opts.htmlmin))
-      .on('error', handleError)
-      .pipe(gulp.dest('./dist/'));
+      .pipe(inProd ? gutil.noop() : browserReload({ stream: true }));
   });
 
-// css tasks
-  gulp.task('dev-css', function(){
+// css task
+  gulp.task('css', function(){
     return gulp.src('./src/scss/*.scss')
-      .pipe(sass(opts.sass))
+      .pipe(inProd ? sass() : sass(opts.sass))
       .on('error', handleError)
       .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
       .on('error', handleError)
+      .pipe(inProd ? cssmin() : gutil.noop())
       .pipe(gulp.dest('./dist/css/'))
-      .pipe(browserReload({ stream: true }));
-  });
-  gulp.task('build-css', function(){
-    return gulp.src('./src/scss/*.scss')
-      .pipe(sass())
-      .on('error', handleError)
-      .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
-      .on('error', handleError)
-      .pipe(cssmin())
-      .on('error', handleError)
-      .pipe(gulp.dest('./dist/css/'));
+      .pipe(inProd ? gutil.noop() : browserReload({ stream: true }));
   });
 
-// js tasks
-  gulp.task('dev-js', function(){
-    gulp.src('./src/js/**')
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(gulp.dest('dist/js/'))
-    .pipe(browserReload({
-      stream: true,
-      once: true
-    }));
-  });
-  gulp.task('build-js', function(){
-    gulp.src('src/js/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
-
-    return browserify('./src/js/app.js')
-      .bundle()
-      .on('error', handleError)
-      .pipe(source('app.js'))
-      .pipe(streamify(uglify()))
-      .pipe(gulp.dest('dist/js/'));
+// js task
+  gulp.task('js', function(){
+    gulp.src('./src/js/**/*.js')
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'))
+      .pipe(inProd ? streamify(uglify()) : gutil.noop())
+      .pipe(gulp.dest('dist/js/'))
+      .pipe(inProd ? gutil.noop() : browserReload({ stream: true, once: true}));
   });
 
-// webfonts tasks
-  gulp.task('dev-fonts', function(){
+// webfonts task
+  gulp.task('fonts', function(){
     return gulp.src('./src/fonts/**')
       .pipe(gulp.dest('./dist/fonts/'))
   });
 
-// imgs tasks
-  gulp.task('dev-imgs', function (){
+// imgs task
+  gulp.task('imgs', function(){
     return gulp.src('src/imgs/**')
-      .pipe(gulp.dest('dist/imgs/'));
-  });
-  gulp.task('build-imgs', function (){
-    return gulp.src('src/imgs/**')
-      .pipe(imagemin({
+      .pipe(inProd ? imagemin({
         progressive: true,
         svgoPlugins: [{removeViewBox: false}],
         use: [pngcrush()]
-      }))
+      }) : gutil.noop())
       .pipe(gulp.dest('dist/imgs/'));
   });
 
-// local tasks
-  gulp.task('dev-watch', function(){
-    gulp.watch('src/js/**',    ['dev-js']);
-    gulp.watch('src/scss/**',  ['dev-css']);
-    gulp.watch('src/jade/**',  ['dev-html']);
-    gulp.watch('src/imgs/**',  ['dev-imgs']);
-    gulp.watch('src/fonts/**', ['dev-fonts']);
+// watch task
+  gulp.task('watch', function(){
+    gulp.watch('src/js/**',    ['js']);
+    gulp.watch('src/scss/**',  ['css']);
+    gulp.watch('src/jade/**',  ['html']);
+    gulp.watch('src/imgs/**',  ['imgs']);
+    gulp.watch('src/fonts/**', ['fonts']);
   });
-  gulp.task('dev-serve', function(){
+
+// serve task
+  gulp.task('serve', function(){
     browserSync.init(opts.browserSync);
   });
-  gulp.task('dev-generate-files', [
-    'build-clean',
-    'dev-html',
-    'dev-css',
-    'dev-js',
-    'dev-imgs',
-    'dev-fonts'
+
+// group tasks
+  gulp.task('generate-files', [
+    'prebuild',
+    'html',
+    'imgs',
+    'fonts',
+    'css',
+    'js'
   ]);
   gulp.task('default', [
-    'dev-generate-files',
-    'dev-serve',
-    'dev-watch'
+    'generate-files',
+    'serve',
+    'watch'
   ]);
 
 // build tasks
-  gulp.task('build-clean', function(){
+  gulp.task('prebuild', function(){
     return del('dist/', opts.del);
   });
   gulp.task('deploy', function(){
     return gulp.src('./dist/**/*')
       .pipe(deploy());
   });
-  gulp.task('build', [
-    'build-clean',
-    'build-html',
-    'build-css',
-    'build-js',
-    'build-imgs'
-  ]);
