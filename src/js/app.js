@@ -12,6 +12,7 @@ $(function(){
     }
   };
 
+
   var _hull = {
     $initSection: $('.js-init-section'),
     $loginSection: $('.js-login-section'),
@@ -258,7 +259,7 @@ $(function(){
         var isStillShow = _this.$el.attr('data-status') !== null;
         if(isStillShow)
           _this.hide();
-      }, 2000);
+      }, 1500);
     },
     hide: function(){
       this.$el
