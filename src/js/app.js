@@ -81,6 +81,7 @@ $(function(){
           .html(labelStr);
         $input.attr({
           'id': 'hull-settings-'+ labelStr,
+          'name': 'hull-settings-'+ labelStr,
           'value': inputStr
         });
         $fieldset.append($label, $input, $removeBtn)
@@ -152,18 +153,15 @@ $(function(){
         $fieldset.remove();
       },
       generateJSON: function(){
-        var json = {};
-        var $fieldsets = this.$container.find('fieldset');
+        var _this = this;
+        var vals = this.$form.serializeArray();
 
-        $fieldsets.each(function(i, el){
-          var $this = $(el);
-          var key = $this.find('label').attr('for');
-          var value = $this.find('input').val();
-
-          key = key.split('hull-settings-')[1];
-          json[key] = value;
+        vals.forEach(function(el, i){
+          var key = el.name.split('hull-settings-')[1];
+          var val = el.value;
+          _this.json[key] = val;
         });
-        return json;
+        return _this.json;
       }
     },
 
