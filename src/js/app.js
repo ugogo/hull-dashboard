@@ -7,21 +7,18 @@ var opts = {
 Stull.init(opts, function(){
   Notify.show('success', 'Hull initialized successfully');
 
-  var opts = {
-    pattern: null
-  };
-  Settings.fetch(opts, function(json){
-    var $fieldset = $('<fieldset />');
-    var $label = $('<label />');
-    var $input = $('<input />');
-
-    $fieldset.append($label, $input);
+  $('.js-settings-container').each(function(i, el){
+    var $this = $(el);
 
     var opts = {
-      $container: $('.js-settings-container'),
-      $model: $fieldset
+      pattern: $this.attr('data-pattern'),
+      $model: $('<fieldset> <label></label> <input /> </fieldset>'),
+      $container: $this
     };
 
-    Settings.display(opts);
+    Settings.fetch(opts, function(json){
+      Settings.display();
+    });
   });
+  
 });

@@ -83,32 +83,31 @@ var Stull = {
 };
 var Settings = {
   json: {},
+  opts: {},
 
   fetch: function(opts, cb){
-    var settings = Stull.args[2].extra;
-    var pattern = opts.pattern;
-    var debug = opts.debug;
+    this.buildOpts(opts);
 
-    this.pattern = pattern;
+    var settings = Stull.args[2].extra;
 
     for(var key in settings){
       var val = settings[key];
-      var isMatching = key.match(pattern) !== null;
-      if(pattern === null || isMatching)
+      var isMatching = key.match(this.opts.pattern) !== null;
+      if(this.opts.pattern === 'null' || isMatching)
         this.json[key] = val;
     }
 
     if(cb) cb(this.json);
   },
-  display: function(opts){
-    var $model = opts.$model;
+  display: function(){
+    var $model = this.opts.$model;
 
     for(var entry in this.json){
       var val = this.json[entry];
       $model = $model.clone();
 
-      if(this.pattern !== null)
-        entry = entry.split(this.pattern)[1];
+      if(this.opts.pattern !== 'null')
+        entry = entry.split(this.opts.pattern)[1];
 
       $model
         .find('label')
@@ -123,8 +122,15 @@ var Settings = {
           value: val
         });
 
+      $model.appendTo(this.opts.$container);
+    }
 
-      $model.appendTo(opts.$container);
+    this.json = {};
+    this.opts = {};
+  },
+  buildOpts: function(opts){
+    for(var option in opts){
+      this.opts[option] = opts[option];
     }
   }
 };
