@@ -62,14 +62,15 @@ var Notify = {
   }
 };
 
-var _hull = {
+var Stull = {
   args: [],
-  init: function(_orgurl, _appid, cb){
+  init: function(opts, cb){
     var _this = this;
     Hull.init({ 
-      orgUrl: _orgurl, 
-      appId: _appid 
+      orgUrl: opts.orgurl, 
+      appId: opts.appid
     }, function(){
+      _this.debug = opts.debug;
       _this.saveArgs(arguments);
       if(cb) cb();
     });
@@ -78,6 +79,49 @@ var _hull = {
     var argSize = args.length;
     for(var i=0; i<argSize; i++){
       this.args.push(args[i]);
+    }
+  }
+};
+
+var Settings = {
+  json: {},
+
+  fetch: function(opts, cb){
+    var settings = Stull.args[2].extra;
+    var pattern = opts.pattern;
+    var debug = opts.debug;
+
+    this.pattern = pattern;
+
+    for(var key in settings){
+      var val = settings[key];
+      var isMatching = key.match(pattern) !== null;
+      if(isMatching) this.json[key] = val;
+    }
+
+    if(cb) cb(this.json);
+  },
+  display: function(opts){
+    var $model = opts.$model;
+    
+    for(var entry in this.json){
+      var val = this.json[entry];
+      var scopeKey = entry.split(this.pattern)[1];
+
+      $model
+        .find('label')
+        .attr('for', entry)
+        .html(scopeKey);
+
+      $model
+        .find('input')
+        .attr({
+          name: entry,
+          id: entry,
+          value: val
+        });
+
+      $model.appendTo(opts.$container);
     }
   }
 };
