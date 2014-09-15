@@ -5,20 +5,28 @@ var opts = {
 };
 
 Stull.init(opts, function(){
+  // on init
+
+  // display a notification
   Notify.show('success', 'Hull initialized successfully');
 
+  // for each settings container
   $('.js-settings-container').each(function(i, el){
     var $this = $(el);
 
+    // create a variable with options
+    // related to the container
     var opts = {
       pattern: $this.attr('data-pattern'),
       $model: $('<fieldset> <label></label> <input /> </fieldset>'),
       $container: $this
     };
 
+    // fetch and display settings
+    // related to the container
     Settings.fetch(opts, function(json){
       Settings.display();
     });
   });
-  
+
 });

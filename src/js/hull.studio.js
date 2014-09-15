@@ -69,7 +69,7 @@ var Stull = {
       orgUrl: opts.orgurl, 
       appId: opts.appid
     }, function(){
-      _this.debug = opts.debug;
+      // on success, save arguments (hull, me, app, org)
       _this.saveArgs(arguments);
       if(cb) cb();
     });
@@ -86,13 +86,20 @@ var Settings = {
   opts: {},
 
   fetch: function(opts, cb){
+
+    // save current options
     this.buildOpts(opts);
 
     var settings = Stull.args[2].extra;
 
+    // for each entry in settings
     for(var key in settings){
       var val = settings[key];
       var isMatching = key.match(this.opts.pattern) !== null;
+
+      // if current entry match with the pattern
+      // or if there's no pattern (pattern == 'null') push entry into the main json
+      // NB: use 'null' and not null, because it's a data-attribute
       if(this.opts.pattern === 'null' || isMatching)
         this.json[key] = val;
     }
@@ -102,18 +109,24 @@ var Settings = {
   display: function(){
     var $model = this.opts.$model;
 
+    // for each entry in main json created into Settings.fetch()
     for(var entry in this.json){
       var val = this.json[entry];
+
+      // clone $model to avoid conflicts
       $model = $model.clone();
 
+      // if there's a pattern, scope entry key
       if(this.opts.pattern !== 'null')
         entry = entry.split(this.opts.pattern)[1];
 
+      // put attributes in the label
       $model
         .find('label')
         .attr('for', entry)
         .html(entry);
 
+      // put attributes in the input
       $model
         .find('input')
         .attr({
@@ -122,13 +135,17 @@ var Settings = {
           value: val
         });
 
+      // display in client page
       $model.appendTo(this.opts.$container);
     }
 
+    // reset objects
     this.json = {};
     this.opts = {};
   },
   buildOpts: function(opts){
+    // for each options passsed
+    // build a main json object
     for(var option in opts){
       this.opts[option] = opts[option];
     }
