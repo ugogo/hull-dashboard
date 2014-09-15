@@ -61,7 +61,6 @@ var Notify = {
     this.isBusy = false;
   }
 };
-
 var Stull = {
   args: [],
   init: function(opts, cb){
@@ -82,7 +81,6 @@ var Stull = {
     }
   }
 };
-
 var Settings = {
   json: {},
 
@@ -96,22 +94,26 @@ var Settings = {
     for(var key in settings){
       var val = settings[key];
       var isMatching = key.match(pattern) !== null;
-      if(isMatching) this.json[key] = val;
+      if(pattern === null || isMatching)
+        this.json[key] = val;
     }
 
     if(cb) cb(this.json);
   },
   display: function(opts){
     var $model = opts.$model;
-    
+
     for(var entry in this.json){
       var val = this.json[entry];
-      var scopeKey = entry.split(this.pattern)[1];
+      $model = $model.clone();
+
+      if(this.pattern !== null)
+        entry = entry.split(this.pattern)[1];
 
       $model
         .find('label')
         .attr('for', entry)
-        .html(scopeKey);
+        .html(entry);
 
       $model
         .find('input')
@@ -120,6 +122,7 @@ var Settings = {
           id: entry,
           value: val
         });
+
 
       $model.appendTo(opts.$container);
     }

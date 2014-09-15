@@ -8,7 +8,7 @@ Stull.init(opts, function(){
   Notify.show('success', 'Hull initialized successfully');
 
   var opts = {
-    pattern: 'sampler-test-'
+    pattern: null
   };
   Settings.fetch(opts, function(json){
     var $fieldset = $('<fieldset />');
