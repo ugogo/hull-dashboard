@@ -1,6 +1,5 @@
 
 var fetchSettings = (function(){
-
   // for each settings container
   $('.js-settings-container').each(function(i, el){
     var $this = $(el);

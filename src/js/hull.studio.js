@@ -95,7 +95,6 @@ var Settings = {
   }),
 
   fetch: function(opts, cb){
-
     // start on a clean object
     this.json = {};
 
@@ -127,7 +126,6 @@ var Settings = {
       this.display();
     else
       return this.json;
-
   },
   display: function(){
     var $model = this.opts.$model;
