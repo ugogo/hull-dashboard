@@ -105,6 +105,7 @@ var Settings = {
     }
 
     if(cb) cb(this.json);
+    return this.json;
   },
   display: function(){
     var $model = this.opts.$model;
