@@ -84,11 +84,30 @@ var Stull = {
 var Settings = {
   json: {},
   opts: {},
+  opts_default: (function(){
+    return {
+      display: false,
+      pattern: 'null',
+      $createBtn: $('.js-settings-create-btn'),
+      $model: $('<div class="setting-container"><label></label><input /></div>'),
+      $container: $('.js-settings-container')
+    };
+  }),
 
   fetch: function(opts, cb){
 
-    // save current options
-    this.buildOpts(opts);
+    // start on a clean object
+    this.json = {};
+
+    // define options to use
+    if(opts !== undefined){
+      // use current options
+      this.opts = this.buildOpts(opts);
+    }
+    else{
+      // use default options
+      this.opts = new this.opts_default;
+    }
 
     var settings = Stull.args[2].extra;
 
@@ -104,8 +123,11 @@ var Settings = {
         this.json[key] = val;
     }
 
-    if(cb) cb(this.json);
-    return this.json;
+    if(this.opts.display)
+      this.display();
+    else
+      return this.json;
+
   },
   display: function(){
     var $model = this.opts.$model;
@@ -145,11 +167,15 @@ var Settings = {
     this.opts = {};
   },
   buildOpts: function(opts){
-    // for each options passsed
-    // build a main json object
+    // create a new instance of default options
+    var newOpts = new this.opts_default;
+
+    // for each options passsed, update in newOpts
     for(var option in opts){
-      this.opts[option] = opts[option];
+      newOpts[option] = opts[option];
     }
+
+    return newOpts;
   }
 };
 

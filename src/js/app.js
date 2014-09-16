@@ -8,6 +8,7 @@ var fetchSettings = (function(){
     // create a variable with options
     // related to the current container
     var opts = {
+      display: true,
       pattern: $this.attr('data-pattern'),
       $model: $('<fieldset> <label></label> <input /> </fieldset>'),
       $container: $this
@@ -15,13 +16,11 @@ var fetchSettings = (function(){
 
     // fetch and display settings
     // related to the current container
-    Settings.fetch(opts, function(json){
-      Settings.display();
-      $('.js-settings-section').removeClass('none');
-    });
-
-    // do stuff
+    Settings.fetch(opts);
   });
+
+  // display settings section
+  $('.js-settings-section').removeClass('none');
 });
 var mainOpts = {
   orgurl: "https://835b18df.hullapp.io",
