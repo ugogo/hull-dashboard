@@ -22,10 +22,7 @@ var SettingsFetch = (function(){
   $('.js-settings-section').removeClass('none');
 });
 var SettingsInit = (function(){
-  var opts = {
-    // $saveBtn: $('body')
-  };
-  Settings.init(opts);
+  Settings.init();
   SettingsFetch();
 });
 var mainOpts = {

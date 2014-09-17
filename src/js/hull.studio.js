@@ -135,6 +135,7 @@ var Settings = {
   },
   display: function(){
     var $model = this.opts.$model;
+    var $form = this.opts.$container.closest('form');
 
     // for each entry in main json
     // created into Settings.fetch()
@@ -145,8 +146,10 @@ var Settings = {
       $model = $model.clone();
 
       // if there's a pattern, scope entry key
-      if(this.opts.pattern !== 'null')
+      if(this.opts.pattern !== 'null'){
+        var originalEntry = entry;
         entry = entry.split(this.opts.pattern)[1];
+      }
 
       // put attributes in the label
       $model
@@ -160,7 +163,8 @@ var Settings = {
         .attr({
           name: entry,
           id: entry,
-          value: val
+          value: val,
+          'data-binding-class': originalEntry || entry
         });
 
       // display in client page
@@ -168,8 +172,11 @@ var Settings = {
     }
 
     // store data-pattern to the form
-    this.opts.$container
-      .closest('form').attr('data-pattern', this.opts.pattern);
+    $form.attr('data-pattern', this.opts.pattern);
+
+    // active data-binding
+    // for current $form
+    this.activeDataBinding($form);
 
     // reset objects
     this.json = {};
@@ -222,6 +229,18 @@ var Settings = {
     }).then(function(data){
       Notify.show('success', 'Settings saved!');
       if(cb) cb(data);
+    });
+  },
+  activeDataBinding: function($form){
+    var $inputs = $form.find('input');
+
+    $inputs.on('keyup', function(){
+      var $this = $(this);
+      var _class = $this.attr('data-binding-class');
+      var _value = $this.val();
+      var $inputToBind = $('input[name="'+ _class +'"]');
+
+      $inputToBind.val(_value);
     });
   }
 };
