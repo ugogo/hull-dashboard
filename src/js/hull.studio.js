@@ -210,7 +210,14 @@ var Settings = {
     // remove setting
     this.opts.$deleteBtn.live('click', function(e){
       e.preventDefault();
-      _this.drop(this);
+      var $this = $(this);
+      var $input = $this.closest('fieldset').find('input');
+      var bindingClass = $input.attr('data-binding-class');
+      var $inputs = $('input[data-binding-class="'+ bindingClass +'"]');
+
+      $inputs.forEach(function(el, i){
+        _this.drop(el);
+      });
     });
 
     // create setting
