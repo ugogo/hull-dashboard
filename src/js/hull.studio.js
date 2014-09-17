@@ -266,6 +266,11 @@ var Settings = {
     var keyValue = prompt('Value ?');
     var json = {};
 
+    // remove spaces
+    labelValue = labelValue.split(' ').join('-');
+
+    // if labelValue and keyValue
+    // are not empty, save
     if(labelValue && keyValue){
       json[labelValue] = keyValue;
       this.save(json);
