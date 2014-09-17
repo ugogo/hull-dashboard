@@ -79,6 +79,11 @@ var Stull = {
     for(var i=0; i<argSize; i++){
       this.args.push(args[i]);
     }
+  },
+  get: function(path){
+    Hull.api(path, 'get').then(function(){
+      console.info(arguments);
+    });
   }
 };
 var Settings = {
