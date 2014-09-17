@@ -96,7 +96,8 @@ var Settings = {
       $createBtn: $('.js-settings-create-btn'),
       $model: $('<div class="setting-container"><label></label><input /></div>'),
       $container: $('.js-settings-container'),
-      $saveBtn: $('.js-settings-save')
+      $saveBtn: $('.js-settings-save'),
+      $deleteBtn: $('.js-setting-drop')
     };
   }),
 
@@ -124,7 +125,7 @@ var Settings = {
       // if current entry match with the pattern
       // or if there's no pattern (pattern == 'null') push entry into the main json
       // NB: use 'null' and not null, because it's a data-attribute
-      if(this.opts.pattern === 'null' || isMatching)
+      if((this.opts.pattern === 'null' || isMatching) && val !== "null")
         this.json[key] = val;
     }
 
@@ -205,6 +206,12 @@ var Settings = {
       e.preventDefault();
       _this.beforeSave(this);
     });
+
+    // remove settings
+    this.opts.$deleteBtn.live('click', function(e){
+      e.preventDefault();
+      _this.drop(this);
+    });
   },
   beforeSave: function(el){
     var $this = $(el);
@@ -230,6 +237,14 @@ var Settings = {
       Notify.show('success', 'Settings saved!');
       if(cb) cb(data);
     });
+  },
+  drop: function(el){
+    var $this = $(el);
+    var $fieldset = $this.closest('fieldset');
+    var $input = $fieldset.find('input');
+
+    $input.val('null');
+    $fieldset.addClass('none');
   },
   activeDataBinding: function($form){
     var $inputs = $form.find('input');

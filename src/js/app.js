@@ -9,7 +9,7 @@ var SettingsFetch = (function(){
     var opts = {
       display: true,
       pattern: $this.attr('data-pattern'),
-      $model: $('<fieldset> <label></label> <input /> </fieldset>'),
+      $model: $('<fieldset> <label></label> <input /> <button type="button" class="js-setting-drop">Remove</button> </fieldset>'),
       $container: $this
     };
 
