@@ -105,7 +105,7 @@ var Settings = {
     }
     else{
       // use default options
-      this.opts = new this.opts_default;
+      this.opts = new this.opts_default();
     }
 
     var settings = Stull.args[2].extra;
@@ -166,7 +166,7 @@ var Settings = {
   },
   buildOpts: function(opts){
     // create a new instance of default options
-    var newOpts = new this.opts_default;
+    var newOpts = new this.opts_default();
 
     // for each options passsed, update in newOpts
     for(var option in opts){
