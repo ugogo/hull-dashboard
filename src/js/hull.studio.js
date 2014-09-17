@@ -95,7 +95,8 @@ var Settings = {
       pattern: 'null',
       $createBtn: $('.js-settings-create-btn'),
       $model: $('<div class="setting-container"><label></label><input /></div>'),
-      $container: $('.js-settings-container')
+      $container: $('.js-settings-container'),
+      $saveBtn: $('.js-settings-save')
     };
   }),
 
@@ -135,7 +136,8 @@ var Settings = {
   display: function(){
     var $model = this.opts.$model;
 
-    // for each entry in main json created into Settings.fetch()
+    // for each entry in main json
+    // created into Settings.fetch()
     for(var entry in this.json){
       var val = this.json[entry];
 
@@ -165,13 +167,19 @@ var Settings = {
       $model.appendTo(this.opts.$container);
     }
 
+    // store data-pattern to the form
+    this.opts.$container
+      .closest('form').attr('data-pattern', this.opts.pattern);
+
     // reset objects
     this.json = {};
     this.opts = {};
   },
   buildOpts: function(opts){
+    var _this = Settings;
+
     // create a new instance of default options
-    var newOpts = new this.opts_default();
+    var newOpts = new _this.opts_default();
 
     // for each options passsed, update in newOpts
     for(var option in opts){
@@ -179,6 +187,42 @@ var Settings = {
     }
 
     return newOpts;
+  },
+  init: function(opts){
+    var _this = this;
+
+    this.opts = new this.buildOpts(opts);
+
+    // save settings
+    this.opts.$saveBtn.on('click', function(e){
+      e.preventDefault();
+      _this.beforeSave(this);
+    });
+  },
+  beforeSave: function(el){
+    var $this = $(el);
+    var $form = $this.closest('form');
+    var formDataPattern = $form.attr('data-pattern');
+    var pattern = formDataPattern != 'null' ? formDataPattern : '';
+    var entries = $form.serializeArray();
+    var json = {};
+
+    // for each form's entries
+    // push it to the json
+    entries.forEach(function(entry){
+      json[pattern + entry.name] = entry.value;
+    });
+
+    // then push the json to Hull
+    this.save(json);
+  },
+  save: function(json, cb){
+    Hull.api('app', 'put', {
+      extra: json
+    }).then(function(data){
+      Notify.show('success', 'Settings saved!');
+      if(cb) cb(data);
+    });
   }
 };
 

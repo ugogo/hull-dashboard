@@ -1,5 +1,5 @@
 
-var fetchSettings = (function(){
+var SettingsFetch = (function(){
   // for each settings container
   $('.js-settings-container').each(function(i, el){
     var $this = $(el);
@@ -21,6 +21,13 @@ var fetchSettings = (function(){
   // display settings section
   $('.js-settings-section').removeClass('none');
 });
+var SettingsInit = (function(){
+  var opts = {
+    // $saveBtn: $('body')
+  };
+  Settings.init(opts);
+  SettingsFetch();
+});
 var mainOpts = {
   orgurl: "https://835b18df.hullapp.io",
   appid: "540ef0175f6f92e55b001366",
@@ -31,6 +38,6 @@ Stull.init(mainOpts, function(){
   // display a notification
   Notify.show('success', 'Hull initialized successfully');
 
-  // then, fetch settings
-  fetchSettings();
+  // init Settings
+  SettingsInit();
 });
