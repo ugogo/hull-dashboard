@@ -240,7 +240,7 @@ var Settings = {
     Hull.api('app', 'put', {
       extra: json
     }).then(function (user) {
-      Notify.show('success', 'Settings saved!');
+      Notify.show('success', 'Settings updated!');
       setTimeout(function(){
         if(cb) cb(data);
         else window.location.reload();
