@@ -93,11 +93,11 @@ var Settings = {
     return {
       display: false,
       pattern: 'null',
-      $createBtn: $('.js-settings-create-btn'),
       $model: $('<div class="setting-container"><label></label><input /></div>'),
       $container: $('.js-settings-container'),
       $saveBtn: $('.js-settings-save'),
-      $deleteBtn: $('.js-setting-drop')
+      $deleteBtn: $('.js-setting-drop'),
+      $createBtn: $('.js-setting-create')
     };
   }),
 
@@ -207,10 +207,16 @@ var Settings = {
       _this.beforeSave(this);
     });
 
-    // remove settings
+    // remove setting
     this.opts.$deleteBtn.live('click', function(e){
       e.preventDefault();
       _this.drop(this);
+    });
+
+    // create setting
+    this.opts.$createBtn.live('click', function(e){
+      e.preventDefault();
+      _this.create(this);
     });
   },
   beforeSave: function(el){
@@ -233,9 +239,14 @@ var Settings = {
   save: function(json, cb){
     Hull.api('app', 'put', {
       extra: json
-    }).then(function(data){
+    }).then(function (user) {
       Notify.show('success', 'Settings saved!');
-      if(cb) cb(data);
+      setTimeout(function(){
+        if(cb) cb(data);
+        else window.location.reload();
+      }, 1000);
+    }, function (error) {
+      Notify.show('error', 'An error occurred!');
     });
   },
   drop: function(el){
@@ -245,6 +256,23 @@ var Settings = {
 
     $input.val('null');
     $fieldset.addClass('none');
+  },
+  create: function(el){
+    var $this = $(el);
+    var $form = $this.closest('form');
+    var formDataPattern = $form.attr('data-pattern');
+    var pattern = formDataPattern != 'null' ? formDataPattern : '';
+    var labelValue = pattern + prompt('Label ? '+ pattern);
+    var keyValue = prompt('Value ?');
+    var json = {};
+
+    if(labelValue && keyValue){
+      json[labelValue] = keyValue;
+      this.save(json);
+    }
+    else{
+      Notify.show('error', 'An error occurred');
+    }
   },
   activeDataBinding: function($form){
     var $inputs = $form.find('input');
