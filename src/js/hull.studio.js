@@ -238,7 +238,7 @@ var Settings = {
       var $this = $(this);
       var _class = $this.attr('data-binding-class');
       var _value = $this.val();
-      var $inputToBind = $('input[name="'+ _class +'"]');
+      var $inputToBind = $('input[data-binding-class="'+ _class +'"]');
 
       $inputToBind.val(_value);
     });
