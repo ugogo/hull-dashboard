@@ -142,13 +142,14 @@ var Settings = {
     // created into Settings.fetch()
     for(var entry in this.json){
       var val = this.json[entry];
+      var originalEntry;
 
       // clone $model to avoid conflicts
       $model = $model.clone();
 
       // if there's a pattern, scope entry key
       if(this.opts.pattern !== 'null'){
-        var originalEntry = entry;
+        originalEntry = entry;
         entry = entry.split(this.opts.pattern)[1];
       }
 
