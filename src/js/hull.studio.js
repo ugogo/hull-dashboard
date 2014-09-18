@@ -178,7 +178,15 @@ var Settings = {
 
     // active data-binding
     // for current $form
-    this.activeDataBinding($form);
+    var $inputs = $form.find('input');
+    $inputs.on('keyup', function(){
+      var $this = $(this);
+      var _class = $this.attr('data-binding-class');
+      var _value = $this.val();
+      var $inputToBind = $('input[data-binding-class="'+ _class +'"]');
+
+      $inputToBind.val(_value);
+    });
 
     // reset objects
     this.json = {};
@@ -286,18 +294,6 @@ var Settings = {
     else{
       Notify.show('error', 'An error occurred');
     }
-  },
-  activeDataBinding: function($form){
-    var $inputs = $form.find('input');
-
-    $inputs.on('keyup', function(){
-      var $this = $(this);
-      var _class = $this.attr('data-binding-class');
-      var _value = $this.val();
-      var $inputToBind = $('input[data-binding-class="'+ _class +'"]');
-
-      $inputToBind.val(_value);
-    });
   }
 };
 
