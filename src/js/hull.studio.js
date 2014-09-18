@@ -296,5 +296,19 @@ var Settings = {
     }
   }
 };
+var User = {
+  get: function(key){
+    if(this.isLogged())
+      return key ? Hull.currentUser()[key] : Hull.currentUser();
+    else
+      return "You have to login";
+  },
+  isLogged: function(){
+    return Hull.currentUser() ? true : false;
+  },
+  login: function(provider){
+    return provider ? Hull.login(provider) : "Define a provider";
+  }
+};
 
 Notify.init();
