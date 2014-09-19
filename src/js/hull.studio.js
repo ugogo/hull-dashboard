@@ -329,10 +329,21 @@ var User = {
       });
     }
   },
-  logout: function(){
-    Hull.logout().then(function(){
+  logout: function(provider){
+    // if no provider passed
+    // just logout user
+    if(!provider){
+      Hull.logout().then(function(){
       Notify.show('success', 'Logout!');
     });
+    }
+    else{
+      Hull.unlinkIdentity(provider).then(function() {
+        Notify.show('success', provider+' identity has been unlinked');
+      }, function(error) {
+        Notify.show('error', 'An error has occurred: '+ error.message);
+      });
+    }
   }
 };
 
