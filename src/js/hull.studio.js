@@ -307,7 +307,32 @@ var User = {
     return Hull.currentUser() ? true : false;
   },
   login: function(provider){
-    return provider ? Hull.login(provider) : "Define a provider";
+    // if there's no provider passed
+    // notify an error
+    if(!provider){
+      Notify.show('error', 'No provider defined');
+    }
+    // if user isn't logged yet
+    // login with the provider
+    else if(!this.isLogged()){
+      Hull.login(provider).then(function(){
+        Notify.show('success', 'Login with '+ provider +': success!');
+      });
+    }
+    // if user is already logged
+    // link identity
+    else {
+      Hull.linkIdentity(provider).then(function() {
+        Notify.show('success', provider +' identity linked successfully!');
+      }, function(error) {
+        Notify.show('error', 'linkIdentity failed: ' + error.reason);
+      });
+    }
+  },
+  logout: function(){
+    Hull.logout().then(function(){
+      Notify.show('success', 'Logout!');
+    });
   }
 };
 
