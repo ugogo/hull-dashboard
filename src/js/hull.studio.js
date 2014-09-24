@@ -1,3 +1,4 @@
+var $body = $('body');
 var Notify = {
   $el: $('.js-notif'),
   $toggler: $('.js-notif-toggler'),
@@ -82,7 +83,10 @@ var Stull = {
   },
   get: function(path){
     Hull.api(path, 'get').then(function(){
-      console.info(arguments);
+      $body.trigger({
+        type:'stull-get--ok',
+        _data: arguments
+      });
     });
   }
 };
@@ -252,17 +256,22 @@ var Settings = {
     // then push the json to Hull
     this.save(json);
   },
-  save: function(json, cb){
+  save: function(json){
     Hull.api('app', 'put', {
       extra: json
-    }).then(function (user) {
-      Notify.show('success', 'Settings updated!');
-      setTimeout(function(){
-        if(cb) cb(data);
-        else window.location.reload();
-      }, 1000);
-    }, function (error) {
-      Notify.show('error', 'An error occurred!');
+    }).then(function(app) {
+      $body.trigger({
+        type: 'settings-save--success',
+        _data: {
+          app: app,
+          json: json
+        }
+      });
+    }, function(error) {
+      $body.trigger({
+        type: 'settings-save--fail',
+        _data: error
+      });
     });
   },
   drop: function(el){
@@ -292,7 +301,7 @@ var Settings = {
       this.save(json);
     }
     else{
-      Notify.show('error', 'An error occurred');
+      $body.trigger('settings-create--fail');
     }
   }
 };
@@ -310,22 +319,37 @@ var User = {
     // if there's no provider passed
     // notify an error
     if(!provider){
-      Notify.show('error', 'No provider defined');
+      $body.trigger('user-login--fail');
     }
     // if user isn't logged yet
     // login with the provider
     else if(!this.isLogged()){
-      Hull.login(provider).then(function(){
-        Notify.show('success', 'Login with '+ provider +': success!');
+      Hull.login(provider).then(function(user){
+        $body.trigger({
+          type: 'user-login--ok',
+          _data: {
+            user: user,
+            provider: provider
+          }
+        });
       });
     }
     // if user is already logged
     // link identity
     else {
-      Hull.linkIdentity(provider).then(function() {
-        Notify.show('success', provider +' identity linked successfully!');
+      Hull.linkIdentity(provider).then(function(user) {
+        $body.trigger({
+          type: 'user-linkidentity--success',
+          _data: {
+            user: user,
+            provider: provider
+          }
+        });
       }, function(error) {
-        Notify.show('error', 'linkIdentity failed: ' + error.reason);
+        $body.trigger({
+          type: 'user-linkidentity--fail',
+          _data: error
+        });
       });
     }
   },
@@ -334,8 +358,8 @@ var User = {
     // just logout user
     if(!provider){
       Hull.logout().then(function(){
-      Notify.show('success', 'Logout!');
-    });
+        $body.trigger('user-logout--success');
+      });
     }
     else{
       Hull.unlinkIdentity(provider).then(function() {
